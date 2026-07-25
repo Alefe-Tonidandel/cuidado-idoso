@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<link rel="manifest" id="pwa-manifest"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Cuidado"/>
+<meta name="theme-color" content="#3D8B7A"/>
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADpElEQVR4nO3c23EUQRBEURzjXzbhAi7iC48QAULotZszU1XdJ+Ma0DF1fnc/ff76Rbq7T+Uv0OgAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUWcB+m79BpBFA8iiAWTRALJoAFk0gCwaQBYNIIsGkEUDyKIBVLBvDw/VTzhsABUMIIDu3089j1U/5JgBdOn+6FnGEEDX7ZmeNQwBdNFe1LOAIYCu2Bt6phsC6Ny9S2c6I4BO3E16hhoC6KzdoWeiIYCO3910JjIC6OAdomeQIYAO24F0BjEC6JidpKe/IYDSnUqnPyOAol2mp60hgO7cxXTaMgLonhXq6WYIoJtXrqeVIYBuWDmahowA+ujKrfQ0BNCHVq6krSGA3lk5juaMAHpr5Sb6GwLo1ZVrGGEIoJdX7mCKIYCer/z8sxgB9M/Krz7OEEB/V37viYYA+r3ySw81BNCvld94riGA1tdzqqHdAZXfdbqhrQGVX3QBQ/sCKr/lGoY2BVR+xWUM7Qio/H4dOupjbgeo/HJ9OuR77gWo/GbdAoieYkMA7R5A9FQa2gJQ+YX6BxA9NYYWB1R+lVkBBBBAxwEqv8fEAKLnUkMACSB66gwtCKj8668RQALodkDl332ltgNU/sXXCyAB9DFA5d961QASQO8BKv/Ka7c4oPLvu0MACSB6+hkCSBsDKv+muwWQAAIIoEMAlX/NPQNIANHTxhBAAkgA3QSo/AsKIAEkgO4AVP7t9BhAigJIUSMBlX81PQ0gRQGkKIAUNQxQ+ffS/wGkKIAUBZCiAFIUQIoCSFFjAJV/Kb0WQIoCSFEAKQogRQGkKIAUBZCiAFIUQIoCSFEAKWoGIIZ6dsahAdoogBQFkKIAUhRAipoEyC9TuzXsl6kAdQsgRQGkqHmAGOrTyH8oA6hPUwEx1KHBf/MLUIcA0saAGGqiByDtCoihDnpmA2KoXA9A2hsQQ7V6VgA00dDQNwPUpaFvXhbQrHuMfvOygKbcY4E3Dwb0buXf+u2WefPZlQHqfI/F3rwsoJ73WPLNywLqdpJVH7w4oA4n2eTNywIqPMmGb14W0MX38OwFAV1zEm8+qr6AzjiJZx9ed0D5VTz71CYBevs85S/Z5+VPGw9ItQGkKIAUBZCiAFIUQIoCSFEAKQogRQGkKIAUBZCiAFIUQIoCSFEAKQogRf0AuRQxLzFIqLkAAAAASUVORK5CYII="/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>❤️ Cuidado com Amor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --cream:#FDF8F0;--warm:#F5EDE0;--teal:#3D8B7A;--teal-light:#E8F4F1;--teal-dark:#2A6458;
+    --coral:#E07055;--coral-light:#FBF0ED;--amber:#C9922A;--amber-light:#FBF4E8;
+    --purple:#7B6BAE;--purple-light:#F0EEF8;--text:#2C2416;--muted:#7A6E62;
+    --border:#E8DDD0;--white:#FFFFFF;--danger:#C94040;--danger-light:#FBE8E8;
+    --green:#3D8B5A;--green-light:#E8F4EC;--pink:#B5548A;--pink-light:#F8EDF4;
+    --font-serif:'Lora',Georgia,serif;--font-sans:'Inter',sans-serif;
+  }
+  body{background:var(--cream);font-family:var(--font-sans);color:var(--text);min-height:100vh;overscroll-behavior:none}
+  .screen{display:none;flex-direction:column;min-height:100vh;max-width:520px;margin:0 auto}
+  .screen.active{display:flex}
+  button{font-family:var(--font-sans);cursor:pointer;border:none;background:none}
+  input,textarea,select{font-family:var(--font-sans);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--text);background:var(--white);width:100%}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--teal);outline-offset:1px}
+  textarea{resize:vertical}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+  .card{background:var(--white);border-radius:16px;border:1px solid var(--border);padding:18px 20px;margin-bottom:14px}
+  .btn-primary{background:var(--teal);color:white;border-radius:12px;padding:13px;font-size:15px;font-weight:600;width:100%;transition:background .15s}
+  .btn-primary:hover{background:var(--teal-dark)}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+  .chip{display:inline-block;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500}
+  .tab-bar{display:flex;overflow-x:auto;background:var(--white);border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tab-bar::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 13px;font-size:11px;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+  .tab.active{color:var(--teal);border-color:var(--teal);background:var(--teal-light)}
+  .tab-icon{font-size:19px}
+  .content{flex:1;overflow-y:auto;padding:18px 16px 32px}
+  .section-title{font-family:var(--font-serif);font-size:18px;color:var(--text);margin-bottom:16px;font-weight:600}
+  .fade-in{animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  @keyframes slidein{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+
+  #offline-bar{display:none;position:fixed;top:0;left:0;right:0;background:var(--danger);color:white;text-align:center;padding:8px;font-size:12px;font-weight:600;z-index:9998;letter-spacing:.3px}
+  #pwa-banner{display:none;position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;z-index:9997;background:var(--teal-dark);color:white;padding:14px 16px;display:none;align-items:center;gap:12px;border-radius:18px 18px 0 0;box-shadow:0 -4px 24px rgba(0,0,0,.2)}
+  .pwa-install-btn{background:white;color:var(--teal-dark);border:none;border-radius:10px;padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--font-sans)}
+  .pwa-x{background:none;border:none;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;padding:0}
+  .notif-card{background:var(--purple-light);border:1px solid #C5BDE0;border-radius:14px;padding:14px 16px;margin-bottom:14px}
+  .notif-card button{background:var(--purple);color:white;border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:var(--font-sans);margin-top:8px}
+  .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#2C2416;color:white;padding:12px 22px;border-radius:24px;font-size:14px;z-index:999;animation:slidein .3s ease;pointer-events:none}
+  .header{background:var(--teal);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;color:white;flex-shrink:0}
+  .sos-btn{background:var(--danger);border-radius:22px;padding:9px 16px;color:white;font-size:13px;font-weight:700;transition:transform .1s}
+  .sos-btn:active{transform:scale(.95)}
+  .chat-bubble{max-width:85%;border-radius:18px;padding:11px 15px;font-size:14px;line-height:1.7;word-break:break-word}
+  .chat-user{background:var(--teal);color:white;border-radius:18px 18px 5px 18px;margin-left:auto}
+  .chat-ai{background:var(--warm);color:var(--text);border-radius:18px 18px 18px 5px}
+  .chat-wrap{display:flex;margin-bottom:10px}
+  .chat-wrap.user{justify-content:flex-end}
+  .quick-chip{background:var(--teal-light);border:1px solid var(--teal);color:var(--teal);border-radius:20px;padding:7px 13px;font-size:12px;font-family:var(--font-sans);white-space:nowrap;cursor:pointer;transition:background .12s}
+  .quick-chip:hover{background:var(--teal);color:white}
+  .med-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+  .stock-bar-wrap{background:var(--warm);border-radius:8px;height:8px;margin-top:8px;overflow:hidden}
+  .stock-bar{height:100%;border-radius:8px;transition:width .4s ease}
+  .memory-card{background:var(--white);border-radius:16px;border:1px solid var(--border);padding:24px 20px;margin-bottom:14px;text-align:center;cursor:pointer;transition:box-shadow .15s}
+  .memory-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+  .memory-emoji{font-size:52px;margin-bottom:12px;display:block}
+  .music-row{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+  .play-btn{background:var(--teal);color:white;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;flex-shrink:0;text-decoration:none;transition:background .12s}
+  .play-btn:hover{background:var(--teal-dark)}
+  .tip-banner{background:var(--purple-light);border:1px solid #C5BDE0;border-radius:14px;padding:16px 18px;margin-bottom:14px;transition:opacity .5s}
+  .severity-badge{display:inline-block;border-radius:8px;padding:3px 10px;font-size:11px;font-weight:600}
+  .log-row{background:var(--white);border-radius:12px;border:1px solid var(--border);border-left-width:4px;padding:14px 16px;margin-bottom:10px}
+  .report-stat{background:var(--warm);border-radius:10px;padding:14px;text-align:center;flex:1}
+  .report-stat-num{font-size:24px;font-weight:700;color:var(--teal)}
+  .report-stat-label{font-size:11px;color:var(--muted);margin-top:2px}
+  .wellbeing-btn{border-radius:12px;padding:16px 8px;border:1px solid var(--border);background:var(--white);font-size:24px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;color:var(--muted);flex:1;transition:all .15s;cursor:pointer}
+  .wellbeing-btn.selected{border-color:var(--teal);background:var(--teal-light);color:var(--teal)}
+  .wellbeing-emoji{font-size:28px}
+  .routine-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .routine-row:last-child{border-bottom:none}
+  .routine-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
+  .routine-check.done{background:var(--teal);border-color:var(--teal)}
+  .emergency-big{width:100%;padding:24px;background:var(--danger);color:white;border-radius:18px;font-size:20px;font-weight:700;border:none;cursor:pointer;transition:transform .1s;animation:pulse 2s infinite}
+  .emergency-big:active{transform:scale(.97)}
+  select option{background:white}
+  .agenda-item{background:var(--white);border-left:4px solid var(--teal);border-radius:0 12px 12px 0;padding:12px 16px;margin-bottom:8px;display:flex;gap:14px;align-items:center}
+  .time-badge{background:var(--teal-light);color:var(--teal-dark);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;flex-shrink:0;min-width:54px;text-align:center}
+  .home-hero{background:linear-gradient(135deg,var(--teal),var(--teal-dark));border-radius:18px;padding:20px;margin-bottom:16px;color:white}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ TELA DE SELEÇÃO ══════════════════ -->
+<div id="screen-select" class="screen active">
+  <div style="max-width:520px;width:100%;margin:0 auto;padding:32px 20px">
+    <div style="text-align:center;margin-bottom:36px">
+      <div style="font-size:56px;margin-bottom:12px">❤️</div>
+      <h1 style="font-family:var(--font-serif);font-size:26px;color:var(--teal-dark);font-weight:600;margin-bottom:6px">Cuidado com Amor</h1>
+      <p style="color:var(--muted);font-size:14px">Acompanhamento de saúde com dedicação</p>
+    </div>
+
+    <div class="tip-banner" id="select-tip">
+      <div style="font-weight:600;color:var(--purple);font-size:13px;margin-bottom:6px">💡 Dica do dia</div>
+      <div id="select-tip-text" style="font-size:14px;color:var(--text);line-height:1.7"></div>
+    </div>
+
+    <div style="color:var(--muted);font-size:13px;margin-bottom:14px;text-align:center">Selecionar paciente</div>
+    <div id="patient-cards"></div>
+
+    <div style="margin-top:24px;text-align:center">
+      <button onclick="showAddPatient()" style="color:var(--teal);font-size:14px;border:1px dashed var(--teal);border-radius:12px;padding:12px 24px;background:transparent">+ Adicionar paciente</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ TELA PRINCIPAL DO PACIENTE ══════════════════ -->
+<div id="screen-main" class="screen">
+  <!-- Header fixo -->
+  <div class="header" style="flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button onclick="goSelect()" style="color:white;font-size:22px;padding:0 6px 0 0">←</button>
+      <div>
+        <div style="font-weight:700;font-size:16px" id="header-name">—</div>
+        <div style="font-size:11px;opacity:.8" id="header-sub">—</div>
+      </div>
+    </div>
+    <button class="sos-btn" onclick="triggerSOS()">🚨 SOS</button>
+  </div>
+
+  <!-- Banner SOS -->
+  <div id="sos-banner" style="display:none;background:var(--danger-light);border-bottom:2px solid var(--danger);padding:14px 18px;flex-shrink:0">
+    <div style="font-weight:700;color:var(--danger);font-size:15px;margin-bottom:8px">🚨 Emergência ativada!</div>
+    <div style="font-size:13px;line-height:1.8;color:var(--text)">
+      <strong>SAMU: 192</strong> &nbsp;|&nbsp; <strong>Bombeiros: 193</strong> &nbsp;|&nbsp; <strong>CVV: 188</strong><br>
+      Cuidadores do grupo foram notificados.<br>
+      <span style="color:var(--muted);font-size:12px">Protótipo – em emergência real, ligue 192 imediatamente.</span>
+    </div>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tab-bar" style="flex-shrink:0">
+    <button class="tab active" onclick="switchTab('home')" id="tab-home"><span class="tab-icon">🏠</span>Início</button>
+    <button class="tab" onclick="switchTab('agenda')" id="tab-agenda"><span class="tab-icon">📅</span>Agenda</button>
+    <button class="tab" onclick="switchTab('meds')" id="tab-meds"><span class="tab-icon">💊</span>Remédios</button>
+    <button class="tab" onclick="switchTab('wellbeing')" id="tab-wellbeing"><span class="tab-icon">😊</span>Bem-estar</button>
+    <button class="tab" onclick="switchTab('diary')" id="tab-diary"><span class="tab-icon">📝</span>Diário</button>
+    <button class="tab" onclick="switchTab('memories')" id="tab-memories"><span class="tab-icon">📸</span>Memórias</button>
+    <button class="tab" onclick="switchTab('music')" id="tab-music"><span class="tab-icon">🎵</span>Músicas</button>
+    <button class="tab" onclick="switchTab('recipes')" id="tab-recipes"><span class="tab-icon">🍽️</span>Receitas</button>
+    <button class="tab" onclick="switchTab('report')" id="tab-report"><span class="tab-icon">📊</span>Relatório</button>
+    <button class="tab" onclick="switchTab('rapidas')" id="tab-rapidas"><span class="tab-icon">⚡</span>Ações</button>
+    <button class="tab" onclick="switchTab('ai')" id="tab-ai"><span class="tab-icon">🤖</span>Assistente</button>
+  </div>
+
+  <!-- Content area -->
+  <div class="content" id="main-content"></div>
+</div>
+
+<!-- TOAST -->
+
+<div id="offline-bar">📡 Sem internet — funcionando no modo offline</div>
+<div id="pwa-banner">
+  <span style="font-size:28px;flex-shrink:0">❤️</span>
+  <div style="flex:1;font-size:13px;line-height:1.5"><strong style="font-size:14px;display:block;margin-bottom:2px">Instalar o app</strong>Adicione à tela inicial e use sem internet!</div>
+  <button class="pwa-install-btn" onclick="installPWA()">Instalar</button>
+  <button class="pwa-x" onclick="dismissBanner()">✕</button>
+</div>
+<div id="toast" class="toast" style="display:none"></div>
+
+<script>
+// ═══════════════════════ DATA ═══════════════════════
+const LEWY_SYMPTOMS = [
+  "👁️ Alucinações Visuais","🔄 Rigidez/Parkinsoniana","😴 Distúrbios do Sono REM",
+  "🧠 Variação Cognitiva","💪 Quedas/Postura","🛑 Sintomas Autonômicos",
+  "😟 Agitação/Comportamento","🍽️ Alimentação/Deglutição","💊 Medicação",
+  "❤️ Sinais Vitais","🧹 Higiene/Rotina","📋 Geral"
+];
+const SEVERITY = {
+  LEVE:     {label:"🟢 Leve",    color:"#3D8B5A", bg:"#E8F4EC"},
+  MODERADO: {label:"🟡 Moderado",color:"#C9922A", bg:"#FBF4E8"},
+  GRAVE:    {label:"🔴 Grave",   color:"#E07055", bg:"#FBF0ED"},
+  CRITICO:  {label:"⚫ Crítico", color:"#C94040", bg:"#FBE8E8"},
+};
+const LEWY_TIPS = [
+  "Manter ambiente calmo e bem iluminado reduz confusão e alucinações visuais.",
+  "Evite mudanças bruscas na rotina — a previsibilidade traz segurança para o paciente.",
+  "⚠️ Antipsicóticos típicos (haloperidol) são PERIGOSOS na Síndrome de Lewy. Consulte o neurologista.",
+  "Flutuações cognitivas ao longo do dia são características normais da síndrome — não se assuste.",
+  "Exercícios suaves (10-15min/dia) melhoram equilíbrio, humor e qualidade do sono.",
+  "Rotina regular de sono é fundamental. Tente manter os mesmos horários todos os dias.",
+  "Não corrija alucinações diretamente. Diga: 'Entendo que você viu isso. Estou aqui com você.'",
+  "Use frases curtas e simples. O processamento de informações pode ser mais lento.",
+  "Hidratação é essencial — ofereça água a cada 2 horas para prevenir infecções urinárias.",
+  "Cuidar de si mesmo é essencial. Cuidador esgotado não pode cuidar bem. Aceite ajuda.",
+  "Melatonina (com orientação médica) pode ajudar nos distúrbios do sono REM.",
+  "Gravidade de um sintoma sozinha não define emergência — observe o contexto todo.",
+];
+const MUSIC = [
+  {title:"Hinos de Louvor – Luiz de Carvalho",mood:"Calmo / Espiritualidade",emoji:"🕊️",url:"https://www.youtube.com/watch?v=O5jVRzZ9d7M"},
+  {title:"Luiz Gonzaga – Forró dos anos 60/70",mood:"Animado / Memória",emoji:"🎺",url:"https://www.youtube.com/watch?v=UhLUQw0Cvpg"},
+  {title:"Hinos Nostálgicos da Infância",mood:"Memória afetiva",emoji:"💭",url:"https://www.youtube.com/watch?v=rpiK0sUdI1g"},
+  {title:"Tom Jobim – MPB Relaxante",mood:"Calmo / Relaxar",emoji:"🎸",url:"https://www.youtube.com/watch?v=3F2SZFdRjCQ"},
+  {title:"Sertanejo Raiz – João Mineiro",mood:"Memória / Alegria",emoji:"🤠",url:"https://www.youtube.com/watch?v=5ZrXtC5APQM"},
+  {title:"Nat King Cole – Unforgettable",mood:"Calmo / Noite",emoji:"🌙",url:"https://www.youtube.com/watch?v=ntGpSqRsUsM"},
+  {title:"Canto Gregoriano – Relaxamento",mood:"Paz profunda",emoji:"🕍",url:"https://www.youtube.com/watch?v=1g8vr_q8dxg"},
+];
+const RECIPES = [
+  {name:"Mingau de Aveia com Banana e Mel",time:"10min",diff:"Fácil",tags:["Café da manhã","Deglutição fácil"],
+   ingredients:["2 xícaras de leite integral","4 colheres de aveia em flocos finos","1 banana madura amassada","1 colher de chá de mel","Canela a gosto"],
+   steps:["Ferva o leite em fogo médio.","Adicione a aveia mexendo sempre por 5 min até engrossar.","Desligue o fogo e misture a banana amassada.","Adoce com mel e finalize com canela.","Sirva morno — não muito quente."],
+   tip:"Rico em fibras e potássio. Textura cremosa ideal para quem tem dificuldade de deglutição."},
+  {name:"Sopa Cremosa de Abóbora com Gengibre",time:"30min",diff:"Fácil",tags:["Almoço","Anti-inflamatório"],
+   ingredients:["500g de abóbora japonesa","1 batata média","1 cenoura","1 dente de alho","1 cm de gengibre fresco","Caldo de legumes q.b.","Azeite e sal"],
+   steps:["Refogue alho e gengibre ralado em azeite.","Adicione legumes picados e cubra com caldo.","Cozinhe 20min até amaciar.","Bata tudo no liquidificador até ficar liso.","Ajuste o sal. Sirva com fio de azeite."],
+   tip:"O gengibre tem ação anti-inflamatória. A sopa cremosa é excelente para dificuldade de deglutição."},
+  {name:"Vitamina de Mamão com Linhaça",time:"5min",diff:"Muito fácil",tags:["Lanche","Digestão"],
+   ingredients:["2 fatias de mamão formosa","1 copo de leite ou bebida vegetal","1 colher de sopa de linhaça dourada","Mel a gosto"],
+   steps:["Coloque todos os ingredientes no liquidificador.","Bata por 1 minuto até ficar homogêneo.","Sirva imediatamente."],
+   tip:"O mamão e a linhaça juntos são ótimos para a digestão e prevenção de constipação — comum em idosos."},
+  {name:"Omelete Mole com Legumes",time:"15min",diff:"Fácil",tags:["Proteína","Café da manhã","Almoço"],
+   ingredients:["2 ovos","2 colheres de leite","Espinafre picado","Cenoura ralada","Sal e cúrcuma"],
+   steps:["Bata os ovos com leite e uma pitada de sal.","Refogue levemente os legumes por 2 min.","Despeje os ovos sobre os legumes.","Cozinhe em fogo baixo tampado até firmar levemente.","Sirva mole — mais fácil de mastigar."],
+   tip:"Proteína de alta qualidade. Cúrcuma tem ação neuroprotetora, ótima para pacientes com demência."},
+  {name:"Papinha de Frango Desfiado com Mandioquinha",time:"25min",diff:"Fácil",tags:["Almoço","Proteína","Deglutição fácil"],
+   ingredients:["150g de frango cozido desfiado","2 mandioquinhas cozidas","Caldo do cozimento do frango","Azeite e sal"],
+   steps:["Cozinhe frango e mandioquinha juntos até amaciar bem.","Reserve o caldo.","Amasse a mandioquinha com o frango usando garfo ou mixer.","Adicione caldo aos poucos até atingir consistência pastosa.","Regue com azeite e sirva morno."],
+   tip:"Consistência pastosa ideal para estágios avançados. Alta proteína e vitaminas do complexo B."},
+];
+const ROUTINE_ITEMS = [
+  {id:"r1",time:"07:00",icon:"☀️",label:"Acordar e ajudar a levantar devagar"},
+  {id:"r2",time:"07:30",icon:"🚿",label:"Higiene matinal (banho/escovação)"},
+  {id:"r3",time:"08:00",icon:"🍳",label:"Café da manhã"},
+  {id:"r4",time:"08:30",icon:"💊",label:"Remédios da manhã"},
+  {id:"r5",time:"10:00",icon:"🚶",label:"Caminhada leve ou exercício"},
+  {id:"r6",time:"12:00",icon:"🍲",label:"Almoço"},
+  {id:"r7",time:"13:00",icon:"😴",label:"Descanso pós-almoço"},
+  {id:"r8",time:"15:00",icon:"🎵",label:"Atividade: música, memórias ou leitura"},
+  {id:"r9",time:"17:00",icon:"🍵",label:"Lanche da tarde"},
+  {id:"r10",time:"18:30",icon:"🍽️",label:"Jantar"},
+  {id:"r11",time:"20:00",icon:"💊",label:"Remédios da noite"},
+  {id:"r12",time:"21:00",icon:"🌙",label:"Preparar para dormir"},
+];
+
+// ═══════════════════════ STATE ═══════════════════════
+let patients = JSON.parse(localStorage.getItem('cca_patients')||'null') || [
+  {
+    id:"joao",name:"João",age:85,condition:"Síndrome de Lewy",caregiver:"Maria (esposa)",avatar:"👴",
+    medications:[
+      {id:"m1",name:"Donepezila",dose:"5mg",stock:28,daily:1,times:["20:00"],color:"#3D8B7A",notes:"Inibidor de colinesterase – seguro na síndrome de Lewy"},
+      {id:"m2",name:"Morfina",dose:"10mg",stock:14,daily:2,times:["08:00","20:00"],color:"#E07055",notes:"Controle de dor – administrar com cautela"},
+      {id:"m3",name:"Melatonina",dose:"3mg",stock:20,daily:1,times:["21:00"],color:"#7B6BAE",notes:"Auxilia sono REM – ajustado pelo médico"},
+      {id:"m4",name:"Carbidopa-Levodopa",dose:"25/250mg",stock:30,daily:3,times:["07:00","13:00","19:00"],color:"#C9922A",notes:"Sintomas parkinsonianos – nunca parar abruptamente"},
+    ],
+    logs:[
+      {id:"l1",date:"2026-04-30",caregiver:"Maria",details:"Noite tranquila. Dormiu cerca de 6 horas sem intercorrências.",category:"😴 Distúrbios do Sono REM",severity:"LEVE"},
+      {id:"l2",date:"2026-05-01",caregiver:"Maria",details:"Viu figuras na parede de manhã, ficou assustado por uns 20 minutos. Acalmou com música.",category:"👁️ Alucinações Visuais",severity:"MODERADO"},
+      {id:"l3",date:"2026-05-01",caregiver:"Maria",details:"Almoçou bem. Engoliu sem dificuldade. Comeu mingau de aveia.",category:"🍽️ Alimentação/Deglutição",severity:"LEVE"},
+    ],
+    memories:[
+      {id:"mem1",emoji:"💍",title:"Casamento – 1963",caption:"João e Maria na Igreja do Carmo, Belo Horizonte. Um dia inesquecível.",voiceNote:""},
+      {id:"mem2",emoji:"⛪",title:"Viagem a Ouro Preto – 1978",caption:"Família toda reunida. João adorava tirar fotos.",voiceNote:""},
+      {id:"mem3",emoji:"🏭",title:"Aposentadoria – 1996",caption:"30 anos na metalúrgica. Amigos fizeram uma festa surpresa.",voiceNote:""},
+      {id:"mem4",emoji:"⚽",title:"Torcer pelo Atlético",caption:"Todo domingo com os filhos no Mineirão nos anos 70.",voiceNote:""},
+      {id:"mem5",emoji:"🌳",title:"Sítio da família",caption:"Verões no sítio em Lagoa Santa. João plantava milho e mandioca.",voiceNote:""},
+    ],
+    wellbeingLog:[],
+    routineDone:[],
+  }
+];
+let currentPatient = null;
+let currentTab = 'home';
+let tipIndex = 0;
+let aiMessages = [];
+let routineDone = {};
+let wellbeingSelected = null;
+
+// ═══════════════════════ UTILS ═══════════════════════
+function savePatients(){localStorage.setItem('cca_patients',JSON.stringify(patients))}
+function toast(msg,dur=2800){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.display='block';
+  setTimeout(()=>t.style.display='none',dur);
+}
+function el(id){return document.getElementById(id)}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function today(){return new Date().toISOString().split('T')[0]}
+function now(){return new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}
+function fmtDate(d){if(!d)return '';const p=d.split('-');return `${p[2]}/${p[1]}/${p[0]}`}
+function daysLeft(stock,daily){return daily>0?Math.floor(stock/daily):999}
+
+// ═══════════════════════ SELECT SCREEN ═══════════════════════
+function renderSelectScreen(){
+  // tips
+  el('select-tip-text').textContent = LEWY_TIPS[tipIndex%LEWY_TIPS.length];
+  setInterval(()=>{
+    tipIndex++;
+    el('select-tip-text') && (el('select-tip-text').textContent=LEWY_TIPS[tipIndex%LEWY_TIPS.length]);
+  },9000);
+
+  const c=el('patient-cards'); c.innerHTML='';
+  patients.forEach(p=>{
+    const d=daysLeft(p.medications[0]?.stock||0, p.medications[0]?.daily||1);
+    const lowMed = p.medications.some(m=>daysLeft(m.stock,m.daily)<7);
+    c.innerHTML+=`
+    <div class="card" onclick="openPatient('${p.id}')" style="cursor:pointer;border:1px solid ${lowMed?'var(--danger)':'var(--border)'}">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:26px">${p.avatar||'👴'}</div>
+        <div>
+          <div style="font-size:18px;font-weight:700;color:var(--text)">${esc(p.name)}, ${p.age} anos</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${esc(p.condition)}</div>
+          <div style="font-size:12px;color:var(--teal);margin-top:2px">👤 ${esc(p.caregiver)}</div>
+        </div>
+        ${lowMed?'<span style="margin-left:auto;background:var(--danger-light);color:var(--danger);padding:4px 10px;border-radius:8px;font-size:11px;font-weight:700">⚠️ Estoque baixo</span>':''}
+      </div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;background:var(--amber-light);border-radius:8px;padding:9px 0;text-align:center;font-size:12px;color:var(--amber)">💊 ${p.medications.length} remédios</div>
+        <div style="flex:1;background:var(--purple-light);border-radius:8px;padding:9px 0;text-align:center;font-size:12px;color:var(--purple)">📝 ${p.logs.length} registros</div>
+        <div style="flex:1;background:var(--pink-light);border-radius:8px;padding:9px 0;text-align:center;font-size:12px;color:var(--pink)">📸 ${p.memories.length} memórias</div>
+      </div>
+    </div>`;
+  });
+}
+
+function showAddPatient(){
+  const name=prompt('Nome do paciente:');if(!name)return;
+  const age=parseInt(prompt('Idade:'));if(isNaN(age))return;
+  const condition=prompt('Condição / diagnóstico:','Síndrome de Lewy')||'Não informada';
+  const caregiver=prompt('Nome do cuidador principal:','Familiar')||'Familiar';
+  const np={id:'p'+Date.now(),name,age,condition,caregiver,avatar:'👴',
+    medications:[],logs:[],memories:[],wellbeingLog:[],routineDone:[]};
+  patients.push(np);savePatients();renderSelectScreen();
+  toast('✅ Paciente adicionado!');
+}
+
+// ═══════════════════════ OPEN PATIENT ═══════════════════════
+function openPatient(id){
+  currentPatient=patients.find(p=>p.id===id);
+  if(!currentPatient)return;
+  el('screen-select').classList.remove('active');
+  el('screen-main').classList.add('active');
+  el('header-name').textContent='❤️ '+currentPatient.name;
+  el('header-sub').textContent=currentPatient.age+' anos · '+currentPatient.condition;
+  routineDone=currentPatient.routineDone||{};
+  aiMessages=[{role:'assistant',content:`Olá! Sou a assistente do *Cuidado com Amor*. Estou aqui para ajudar você a cuidar de ${currentPatient.name} com mais segurança e carinho. Pode me perguntar qualquer coisa — sobre remédios, sintomas da Síndrome de Lewy, receitas, dicas de cuidado ou o que precisar. 💙`}];
+  switchTab('home');
+}
+
+function goSelect(){
+  savePatients();
+  el('screen-main').classList.remove('active');
+  el('screen-select').classList.add('active');
+  el('sos-banner').style.display='none';
+  renderSelectScreen();
+}
+
+// ═══════════════════════ TABS ═══════════════════════
+function switchTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el('tab-'+tab)?.classList.add('active');
+  const c=el('main-content');
+  c.scrollTop=0;
+  c.innerHTML='<div class="fade-in">'+renderTab(tab)+'</div>';
+  afterRender(tab);
+}
+
+function afterRender(tab){
+  if(tab==='ai') scrollChat();
+  if(tab==='home') fetchWeather();
+}
+
+// ═══════════════════════ WEATHER ═══════════════════════
+async function fetchWeather(){
+  const box=el('weather-box');if(!box)return;
+  box.innerHTML='<div style="color:var(--muted);font-size:13px">Carregando clima de Belo Horizonte...</div>';
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=-19.9167&longitude=-43.9345&current=temperature_2m,weathercode,windspeed_10m&timezone=America/Sao_Paulo');
+    const d=await r.json();
+    const temp=Math.round(d.current.temperature_2m);
+    const code=d.current.weathercode;
+    const icon=code<=1?'☀️':code<=3?'⛅':code<=67?'🌧️':'🌩️';
+    const cond=code<=1?'céu limpo':code<=3?'parcialmente nublado':code<=67?'chuva':'tempestade';
+    const cloth=temp<16?'🧥 Frio — use casaco, blusa de lã e cachecol':temp<22?'👕 Agradável — uma blusa leve está ótima':temp<28?'☀️ Quente — roupas leves e protetor solar':'🥵 Muito quente — roupas levíssimas e muita água!';
+    const outing=temp>=17&&temp<=30&&code<=3;
+    box.innerHTML=`
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <span style="font-size:36px">${icon}</span>
+        <div>
+          <div style="font-weight:700;font-size:18px;color:var(--text)">${temp}°C – ${cond}</div>
+          <div style="font-size:11px;color:var(--muted)">Belo Horizonte, MG · ${now()}</div>
+        </div>
+      </div>
+      <div style="background:var(--amber-light);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--text);margin-bottom:8px">${cloth}</div>
+      ${outing?`<div style="background:var(--green-light);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--green)">✅ Boa tarde para um passeio curto de 10-15 minutos ao sol!</div>`:`<div style="background:var(--warm);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--muted)">🏠 Melhor ficar em casa hoje. Atividades internas recomendadas.</div>`}`;
+  }catch(e){
+    box.innerHTML='<div style="color:var(--muted);font-size:13px">Sem conexão para clima. Verifique antes de sair.</div>';
+  }
+}
+
+// ═══════════════════════ SOS ═══════════════════════
+function triggerSOS(){
+  const b=el('sos-banner');
+  b.style.display=b.style.display==='none'?'block':'none';
+  if(b.style.display==='block') toast('🚨 SOS ativado! Ligue 192 (SAMU) agora.',5000);
+}
+
+// ═══════════════════════ RENDER TAB ═══════════════════════
+function renderTab(tab){
+  const p=currentPatient;
+  switch(tab){
+    case 'home':     return renderHome(p);
+    case 'agenda':   return renderAgenda(p);
+    case 'meds':     return renderMeds(p);
+    case 'wellbeing':return renderWellbeing(p);
+    case 'diary':    return renderDiary(p);
+    case 'memories': return renderMemories(p);
+    case 'music':    return renderMusic(p);
+    case 'recipes':  return renderRecipes(p);
+    case 'report':   return renderReport(p);
+    case 'rapidas':  return renderRapidas(p);
+    case 'ai':       return renderAI(p);
+    default: return '';
+  }
+}
+
+// ─── HOME ───
+function renderHome(p){
+  const lastLog=p.logs[p.logs.length-1];
+  const lowMeds=p.medications.filter(m=>daysLeft(m.stock,m.daily)<7);
+  const todayLogs=p.logs.filter(l=>l.date===today()).length;
+  return `
+  <div class="home-hero">
+    <div style="font-size:13px;opacity:.8;margin-bottom:4px">${new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'})}</div>
+    <div style="font-size:22px;font-weight:700;font-family:var(--font-serif)">${p.name}, ${p.age} anos</div>
+    <div style="font-size:13px;opacity:.8;margin-top:4px">${p.condition} · Cuidador: ${p.caregiver}</div>
+  </div>
+
+  ${lowMeds.length?`<div class="card" style="border-color:var(--danger);border-left:4px solid var(--danger);margin-bottom:14px">
+    <div style="font-weight:700;color:var(--danger);margin-bottom:8px">⚠️ Estoque baixo!</div>
+    ${lowMeds.map(m=>`<div style="font-size:13px;color:var(--text);margin-bottom:4px">• ${m.name}: ${daysLeft(m.stock,m.daily)} dias restantes</div>`).join('')}
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">Providencie a renovação da receita.</div>
+  </div>`:''}
+
+  <div class="notif-card">
+    <div style="font-size:13px;color:var(--text);line-height:1.6">🔔 <strong>Alertas de remédio no celular</strong> — receba uma notificação em cada horário, mesmo com o app fechado.</div>
+    <button onclick="requestNotifPermission()">Ativar notificações de remédios</button>
+  </div>
+  <div class="card" id="weather-box">Carregando clima...</div>
+
+  <div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:12px">💊 Remédios de hoje</div>
+    ${p.medications.map(m=>`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div class="med-dot" style="background:${m.color}"></div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600">${esc(m.name)} ${esc(m.dose)}</div>
+        <div style="font-size:12px;color:var(--muted)">${m.times.join(' · ')}</div>
+      </div>
+      <div style="font-size:12px;color:${daysLeft(m.stock,m.daily)<7?'var(--danger)':'var(--muted)'}">${m.stock} doses</div>
+    </div>`).join('')}
+  </div>
+
+  <div style="display:flex;gap:10px;margin-bottom:14px">
+    <div class="card" style="flex:1;text-align:center;margin-bottom:0">
+      <div style="font-size:24px;font-weight:700;color:var(--teal)">${todayLogs}</div>
+      <div style="font-size:11px;color:var(--muted)">registros hoje</div>
+    </div>
+    <div class="card" style="flex:1;text-align:center;margin-bottom:0">
+      <div style="font-size:24px;font-weight:700;color:var(--purple)">${p.wellbeingLog?.filter(w=>w.date===today()).length||0}</div>
+      <div style="font-size:11px;color:var(--muted)">bem-estar hoje</div>
+    </div>
+    <div class="card" style="flex:1;text-align:center;margin-bottom:0">
+      <div style="font-size:24px;font-weight:700;color:var(--amber)">${Object.values(routineDone).filter(Boolean).length}</div>
+      <div style="font-size:11px;color:var(--muted)">rotinas feitas</div>
+    </div>
+  </div>
+
+  ${lastLog?`<div class="card">
+    <div style="font-weight:700;font-size:14px;margin-bottom:8px">📝 Último registro</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px">${fmtDate(lastLog.date)} · ${esc(lastLog.caregiver)}</div>
+    <div style="font-size:14px;color:var(--text);margin-bottom:8px">${esc(lastLog.details)}</div>
+    <span class="severity-badge" style="background:${SEVERITY[lastLog.severity].bg};color:${SEVERITY[lastLog.severity].color}">${SEVERITY[lastLog.severity].label}</span>
+  </div>`:''}
+
+  <div class="tip-banner">
+    <div style="font-weight:700;color:var(--purple);font-size:13px;margin-bottom:6px">💡 Dica – Síndrome de Lewy</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.7">${LEWY_TIPS[tipIndex%LEWY_TIPS.length]}</div>
+  </div>
+
+  <div class="card" style="background:var(--danger-light);border-color:var(--danger)">
+    <div style="font-weight:700;color:var(--danger);margin-bottom:8px;font-size:14px">🚫 Medicamentos a EVITAR na Síndrome de Lewy</div>
+    <div style="font-size:13px;color:var(--text);line-height:1.8">• Haloperidol (Haldol)<br>• Risperidona e Olanzapina<br>• Clorpromazina<br>• Anticolinérgicos<br><em style="color:var(--muted)">Esses fármacos podem causar reações graves. Sempre consulte o neurologista.</em></div>
+  </div>`;
+}
+
+// ─── AGENDA ───
+function renderAgenda(p){
+  const doneCnt=ROUTINE_ITEMS.filter(r=>routineDone[r.id]).length;
+  return `
+  <div style="font-family:var(--font-serif)" class="section-title">📅 Rotina de ${p.name}</div>
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:14px;color:var(--muted)">Progresso de hoje</span>
+      <span style="font-weight:700;color:var(--teal)">${doneCnt}/${ROUTINE_ITEMS.length}</span>
+    </div>
+    <div class="stock-bar-wrap"><div class="stock-bar" style="width:${Math.round(doneCnt/ROUTINE_ITEMS.length*100)}%;background:var(--teal)"></div></div>
+  </div>
+  <div class="card">
+    ${ROUTINE_ITEMS.map(r=>`
+    <div class="routine-row">
+      <div class="routine-check ${routineDone[r.id]?'done':''}" onclick="toggleRoutine('${r.id}')">
+        ${routineDone[r.id]?'<span style="color:white;font-size:14px">✓</span>':''}
+      </div>
+      <span style="font-size:22px">${r.icon}</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:${routineDone[r.id]?'400':'600'};color:${routineDone[r.id]?'var(--muted)':'var(--text)'};text-decoration:${routineDone[r.id]?'line-through':'none'}">${r.label}</div>
+        <div style="font-size:12px;color:var(--muted)">${r.time}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+  <div class="card" style="background:var(--teal-light);border-color:var(--teal)">
+    <div style="font-size:14px;color:var(--teal-dark);line-height:1.7">🔄 <strong>Rotina é fundamental na Síndrome de Lewy.</strong> Manter os mesmos horários todos os dias reduz ansiedade, agitação e melhora a qualidade do sono.</div>
+  </div>`;
+}
+
+function toggleRoutine(id){
+  routineDone[id]=!routineDone[id];
+  currentPatient.routineDone=routineDone;
+  savePatients();
+  switchTab('agenda');
+  toast(routineDone[id]?'✅ Feito!':'↩️ Desmarcado');
+}
+
+// ─── MEDICATIONS ───
+function renderMeds(p){
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">💊 Controle de Remédios</div>
+  ${p.medications.map(m=>{
+    const dl=daysLeft(m.stock,m.daily);
+    const pct=Math.min(100,Math.round((dl/30)*100));
+    const low=dl<7;
+    return `
+    <div class="card" style="border-left:4px solid ${m.color};${low?'border-color:var(--danger);border-left-color:'+m.color:''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-weight:700;font-size:16px;color:var(--text)">${esc(m.name)}</div>
+          <div style="font-size:13px;color:var(--muted)">${esc(m.dose)} · ${m.daily}x ao dia</div>
+        </div>
+        ${low?`<span style="background:var(--danger-light);color:var(--danger);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700">⚠️ Baixo</span>`:''}
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:10px">
+        <div class="report-stat" style="flex:1">
+          <div class="report-stat-num" style="color:${low?'var(--danger)':'var(--teal)'}">${m.stock}</div>
+          <div class="report-stat-label">doses restantes</div>
+        </div>
+        <div class="report-stat" style="flex:1">
+          <div class="report-stat-num" style="color:${low?'var(--danger)':'var(--teal)'}">${dl}</div>
+          <div class="report-stat-label">dias de estoque</div>
+        </div>
+      </div>
+      <div class="stock-bar-wrap">
+        <div class="stock-bar" style="width:${pct}%;background:${low?'var(--danger)':m.color}"></div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--muted)">🕐 Horários: ${m.times.join(' · ')}</div>
+      ${m.notes?`<div style="margin-top:8px;font-size:12px;color:var(--teal-dark);background:var(--teal-light);padding:8px 10px;border-radius:8px">ℹ️ ${esc(m.notes)}</div>`:''}
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button onclick="administerMed('${m.id}')" style="flex:1;background:var(--teal);color:white;border-radius:10px;padding:10px;font-size:13px;font-weight:600">✅ Administrar agora</button>
+        <button onclick="addStock('${m.id}')" style="flex:1;background:var(--warm);color:var(--text);border-radius:10px;padding:10px;font-size:13px;font-weight:600;border:1px solid var(--border)">+ Estoque</button>
+      </div>
+    </div>`;
+  }).join('')}
+  <button onclick="showAddMed()" style="width:100%;padding:13px;border:1px dashed var(--teal);border-radius:12px;color:var(--teal);font-size:14px;background:transparent;margin-top:4px">+ Adicionar medicamento</button>
+  <div class="card" style="background:var(--danger-light);border-color:var(--danger);margin-top:14px">
+    <div style="font-weight:700;color:var(--danger);margin-bottom:8px;font-size:14px">⚠️ Alerta Síndrome de Lewy</div>
+    <div style="font-size:13px;color:var(--text);line-height:1.8">Medicamentos seguros: Donepezila, Rivastigmina, Melatonina, Carbidopa-Levodopa.<br><br><strong>EVITAR:</strong> Antipsicóticos típicos (haloperidol, risperidona, olanzapina).<br><em style="color:var(--muted)">Nunca altere doses sem orientação do neurologista.</em></div>
+  </div>`;
+}
+
+function administerMed(id){
+  const p=currentPatient;
+  const m=p.medications.find(x=>x.id===id);if(!m)return;
+  if(m.stock<=0){toast('❌ Sem estoque! Providencie o remédio.');return;}
+  m.stock=Math.max(0,m.stock-1);
+  p.logs.push({id:'l'+Date.now(),date:today(),caregiver:p.caregiver,details:`${m.name} ${m.dose} administrado.`,category:'💊 Medicação',severity:'LEVE'});
+  savePatients();switchTab('meds');
+  toast(`✅ ${m.name} administrado! Estoque: ${m.stock} doses.`);
+}
+
+function addStock(id){
+  const p=currentPatient;
+  const m=p.medications.find(x=>x.id===id);if(!m)return;
+  const n=parseInt(prompt(`Quantas doses adicionar ao estoque de ${m.name}?`));
+  if(isNaN(n)||n<=0)return;
+  m.stock+=n;savePatients();switchTab('meds');
+  toast(`✅ +${n} doses adicionadas. Estoque: ${m.stock}.`);
+}
+
+function showAddMed(){
+  const name=prompt('Nome do medicamento:');if(!name)return;
+  const dose=prompt('Dosagem (ex: 5mg):','mg');if(!dose)return;
+  const stock=parseInt(prompt('Estoque inicial (doses):','30'));if(isNaN(stock))return;
+  const daily=parseInt(prompt('Doses por dia:','1'));if(isNaN(daily))return;
+  const times=prompt('Horários (ex: 08:00, 20:00):','08:00');
+  const colors=['#3D8B7A','#E07055','#7B6BAE','#C9922A','#B5548A','#3D8B5A'];
+  const color=colors[Math.floor(Math.random()*colors.length)];
+  const notes=prompt('Observações (opcional):','')||'';
+  currentPatient.medications.push({id:'m'+Date.now(),name,dose,stock,daily,times:times.split(',').map(t=>t.trim()),color,notes});
+  savePatients();switchTab('meds');toast('✅ Medicamento adicionado!');
+}
+
+// ─── WELLBEING ───
+function renderWellbeing(p){
+  const todayLogs=(p.wellbeingLog||[]).filter(w=>w.date===today());
+  const opts=[
+    {v:'OTIMO',emoji:'😄',label:'Ótimo'},
+    {v:'BOM',emoji:'🙂',label:'Bom'},
+    {v:'REGULAR',emoji:'😐',label:'Regular'},
+    {v:'RUIM',emoji:'😟',label:'Ruim'},
+    {v:'MUITO_RUIM',emoji:'😢',label:'Muito ruim'},
+  ];
+  const painOpts=[0,1,2,3,4,5,6,7,8,9,10];
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">😊 Bem-estar de ${p.name}</div>
+
+  <div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:14px">Como ${p.name} está se sentindo agora?</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap" id="wb-opts">
+      ${opts.map(o=>`<button class="wellbeing-btn" onclick="selectWB('${o.v}')" id="wb-${o.v}"><span class="wellbeing-emoji">${o.emoji}</span>${o.label}</button>`).join('')}
+    </div>
+    <div style="margin-top:16px;font-size:14px;font-weight:600;margin-bottom:8px">Dor (0 = nenhuma, 10 = insuportável)</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap" id="pain-btns">
+      ${painOpts.map(n=>`<button onclick="selectPain(${n})" id="pain-${n}" style="width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--warm);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s">${n}</button>`).join('')}
+    </div>
+    <textarea id="wb-notes" placeholder="Observações (opcional)..." rows="2" style="margin-top:12px"></textarea>
+    <button class="btn-primary" onclick="saveWellbeing()" style="margin-top:12px">Salvar bem-estar</button>
+  </div>
+
+  ${todayLogs.length?`
+  <div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:12px">Registros de hoje</div>
+    ${todayLogs.reverse().map(w=>`
+    <div style="background:var(--warm);border-radius:10px;padding:12px 14px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="font-size:20px">${opts.find(o=>o.v===w.mood)?.emoji||'😐'}</span>
+        <span style="font-weight:600;font-size:14px">${opts.find(o=>o.v===w.mood)?.label||w.mood}</span>
+        ${w.pain!==undefined?`<span style="margin-left:auto;font-size:12px;color:var(--muted)">Dor: ${w.pain}/10</span>`:''}
+      </div>
+      ${w.notes?`<div style="font-size:13px;color:var(--muted)">${esc(w.notes)}</div>`:''}
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">${w.time||''}</div>
+    </div>`).join('')}
+  </div>`:''}
+
+  <div class="card" style="background:var(--teal-light);border-color:var(--teal)">
+    <div style="font-size:14px;color:var(--teal-dark);line-height:1.7">📊 <strong>Monitorar bem-estar diariamente</strong> ajuda a identificar padrões — horários de maior agitação, eficácia dos remédios e qualidade do sono. Compartilhe com o médico nas consultas.</div>
+  </div>`;
+}
+
+let selectedMood=null,selectedPain=null;
+function selectWB(v){
+  selectedMood=v;
+  document.querySelectorAll('.wellbeing-btn').forEach(b=>b.classList.remove('selected'));
+  el('wb-'+v)?.classList.add('selected');
+}
+function selectPain(n){
+  selectedPain=n;
+  document.querySelectorAll('[id^=pain-]').forEach(b=>{b.style.background='var(--warm)';b.style.color='var(--text)';});
+  const btn=el('pain-'+n);
+  if(btn){btn.style.background='var(--teal)';btn.style.color='white';}
+}
+function saveWellbeing(){
+  if(!selectedMood){toast('Selecione como o paciente está se sentindo.');return;}
+  const entry={date:today(),time:now(),mood:selectedMood,pain:selectedPain??null,notes:el('wb-notes')?.value||''};
+  if(!currentPatient.wellbeingLog)currentPatient.wellbeingLog=[];
+  currentPatient.wellbeingLog.push(entry);
+  savePatients();selectedMood=null;selectedPain=null;
+  switchTab('wellbeing');toast('✅ Bem-estar registrado!');
+}
+
+// ─── DIARY ───
+function renderDiary(p){
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">📝 Diário do Cuidador</div>
+  <div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:14px">Novo registro</div>
+    <input id="log-caregiver" placeholder="Seu nome (ex: Maria)" style="margin-bottom:10px" value="${esc(p.caregiver)}"/>
+    <textarea id="log-details" rows="3" placeholder="O que aconteceu? Como ${esc(p.name)} está hoje?" style="margin-bottom:10px"></textarea>
+    <select id="log-cat" style="margin-bottom:10px">
+      ${LEWY_SYMPTOMS.map(s=>`<option value="${s}">${s}</option>`).join('')}
+    </select>
+    <select id="log-sev" style="margin-bottom:14px">
+      ${Object.entries(SEVERITY).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}
+    </select>
+    <button class="btn-primary" onclick="addLog()">📝 Registrar Observação</button>
+  </div>
+
+  <div style="font-weight:700;font-size:15px;margin:16px 0 12px">Histórico (${p.logs.length} registros)</div>
+  ${p.logs.length===0?`<div style="color:var(--muted);font-size:14px;text-align:center;padding:24px">Nenhum registro ainda.</div>`:''}
+  ${[...p.logs].reverse().map(l=>`
+  <div class="log-row" style="border-left-color:${SEVERITY[l.severity]?.color||'var(--border)'}">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <span style="font-size:12px;color:var(--muted)">${fmtDate(l.date)} · ${esc(l.caregiver)}</span>
+      <span class="severity-badge" style="background:${SEVERITY[l.severity]?.bg};color:${SEVERITY[l.severity]?.color}">${SEVERITY[l.severity]?.label}</span>
+    </div>
+    <div style="font-size:14px;color:var(--text);margin-bottom:6px;line-height:1.6">${esc(l.details)}</div>
+    <div style="font-size:12px;color:var(--muted)">${esc(l.category)}</div>
+  </div>`).join('')}`;
+}
+
+function addLog(){
+  const details=el('log-details')?.value?.trim();
+  if(!details){toast('Descreva o que aconteceu.');return;}
+  const log={id:'l'+Date.now(),date:today(),caregiver:el('log-caregiver')?.value||currentPatient.caregiver,details,category:el('log-cat')?.value,severity:el('log-sev')?.value};
+  currentPatient.logs.push(log);
+  savePatients();switchTab('diary');toast('✅ Observação registrada!');
+}
+
+// ─── MEMORIES ───
+function renderMemories(p){
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">📸 Caixa de Memórias de ${p.name}</div>
+  <div class="card" style="background:var(--pink-light);border-color:var(--pink);margin-bottom:16px">
+    <div style="font-size:14px;color:var(--text);line-height:1.7">💡 <strong>Terapia de reminiscência</strong> — Relembrar momentos felizes pode reduzir agitação e trazer paz. Reserve 10–15 minutos por dia para olhar fotos e contar histórias juntos.</div>
+  </div>
+  ${p.memories.map(m=>`
+  <div class="memory-card">
+    <span class="memory-emoji">${m.emoji}</span>
+    <div style="font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--text);margin-bottom:8px">${esc(m.title)}</div>
+    <div style="font-size:14px;color:var(--muted);line-height:1.7">${esc(m.caption)}</div>
+  </div>`).join('')}
+  <button onclick="addMemory()" style="width:100%;padding:13px;border:1px dashed var(--pink);border-radius:12px;color:var(--pink);font-size:14px;background:transparent;margin-top:4px">+ Adicionar memória</button>`;
+}
+
+function addMemory(){
+  const title=prompt('Título da memória (ex: Casamento – 1965):');if(!title)return;
+  const caption=prompt('Conte a história:');if(!caption)return;
+  const emojis=['💍','⛪','🏡','🌳','⚽','🎉','❤️','🌅','🎂','📷'];
+  const emoji=emojis[Math.floor(Math.random()*emojis.length)];
+  currentPatient.memories.push({id:'mem'+Date.now(),emoji,title,caption,voiceNote:''});
+  savePatients();switchTab('memories');toast('✅ Memória adicionada!');
+}
+
+// ─── MUSIC ───
+function renderMusic(p){
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">🎵 Musicoterapia</div>
+  <div class="card" style="background:var(--purple-light);border-color:#C5BDE0;margin-bottom:16px">
+    <div style="font-size:14px;color:var(--text);line-height:1.7">🎶 <strong>A música é uma das terapias mais poderosas</strong> para a Síndrome de Lewy. Estimula memória, reduz agitação, melhora o humor e pode diminuir alucinações. Músicas da juventude têm efeito mais forte.</div>
+  </div>
+  ${MUSIC.map(t=>`
+  <div class="music-row">
+    <span style="font-size:28px">${t.emoji}</span>
+    <div style="flex:1">
+      <div style="font-weight:600;font-size:14px;color:var(--text)">${esc(t.title)}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:2px">🎭 ${esc(t.mood)}</div>
+    </div>
+    <a href="${t.url}" target="_blank" class="play-btn">▶ Ouvir</a>
+  </div>`).join('')}
+  <div class="card" style="margin-top:14px;background:var(--amber-light);border-color:var(--amber)">
+    <div style="font-weight:700;color:var(--amber);margin-bottom:8px;font-size:14px">🎧 Dicas de uso</div>
+    <div style="font-size:13px;color:var(--text);line-height:1.8">• Para agitação: músicas calmas e lentas<br>• Para animar: ritmos conhecidos da juventude<br>• Antes de dormir: música instrumental suave<br>• 20–30 minutos por dia é suficiente<br>• Cante junto se possível — isso multiplica o efeito!</div>
+  </div>`;
+}
+
+// ─── RECIPES ───
+let openRecipe=null;
+function renderRecipes(p){
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">🍽️ Receitas para ${p.name}</div>
+  <div class="card" style="background:var(--green-light);border-color:var(--green);margin-bottom:16px">
+    <div style="font-size:14px;color:var(--text);line-height:1.7">🥗 Receitas fáceis, nutritivas e adaptadas para idosos com dificuldade de mastigação/deglutição — comuns na Síndrome de Lewy.</div>
+  </div>
+  ${RECIPES.map((r,i)=>`
+  <div class="card" onclick="toggleRecipe(${i})" style="cursor:pointer">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-weight:700;font-size:15px;color:var(--text);margin-bottom:4px">${esc(r.name)}</div>
+        <div style="font-size:12px;color:var(--muted)">⏱ ${r.time} · ${r.diff}</div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          ${r.tags.map(t=>`<span style="background:var(--green-light);color:var(--green);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:500">${t}</span>`).join('')}
+        </div>
+      </div>
+      <span style="font-size:18px;color:var(--muted);margin-left:8px">${openRecipe===i?'▲':'▼'}</span>
+    </div>
+    ${openRecipe===i?`
+    <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px">
+      <div style="font-weight:700;font-size:13px;color:var(--text);margin-bottom:8px">📋 Ingredientes</div>
+      ${r.ingredients.map(ig=>`<div style="font-size:13px;color:var(--text);margin-bottom:4px">• ${esc(ig)}</div>`).join('')}
+      <div style="font-weight:700;font-size:13px;color:var(--text);margin:14px 0 8px">👩‍🍳 Modo de preparo</div>
+      ${r.steps.map((st,si)=>`<div style="font-size:13px;color:var(--text);margin-bottom:8px;display:flex;gap:8px"><span style="color:var(--teal);font-weight:700;flex-shrink:0">${si+1}.</span>${esc(st)}</div>`).join('')}
+      <div style="background:var(--amber-light);border-radius:10px;padding:12px;margin-top:12px;font-size:13px;color:var(--text);line-height:1.6">💡 ${esc(r.tip)}</div>
+    </div>`:''}
+  </div>`).join('')}`;
+}
+
+function toggleRecipe(i){openRecipe=(openRecipe===i?null:i);switchTab('recipes');}
+
+// ─── REPORT ───
+function renderReport(p){
+  const severityCounts={LEVE:0,MODERADO:0,GRAVE:0,CRITICO:0};
+  p.logs.forEach(l=>severityCounts[l.severity]=(severityCounts[l.severity]||0)+1);
+  const catCounts={};
+  p.logs.forEach(l=>catCounts[l.category]=(catCounts[l.category]||0)+1);
+  const topCats=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const wbData=(p.wellbeingLog||[]).slice(-7);
+  const avgPain=wbData.filter(w=>w.pain!==null).reduce((s,w)=>s+(w.pain||0),0)/(wbData.filter(w=>w.pain!==null).length||1);
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">📊 Relatório de ${p.name}</div>
+
+  <div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:14px">Resumo geral</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <div class="report-stat"><div class="report-stat-num">${p.logs.length}</div><div class="report-stat-label">registros totais</div></div>
+      <div class="report-stat"><div class="report-stat-num">${p.medications.length}</div><div class="report-stat-label">medicamentos</div></div>
+      <div class="report-stat"><div class="report-stat-num">${(p.wellbeingLog||[]).length}</div><div class="report-stat-label">bem-estar reg.</div></div>
+      <div class="report-stat"><div class="report-stat-num" style="font-size:18px">${avgPain.toFixed(1)}</div><div class="report-stat-label">dor média (7d)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:14px">Registros por severidade</div>
+    ${Object.entries(severityCounts).filter(([,v])=>v>0).map(([k,v])=>`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <span class="severity-badge" style="background:${SEVERITY[k].bg};color:${SEVERITY[k].color};min-width:90px;text-align:center">${SEVERITY[k].label}</span>
+      <div style="flex:1;background:var(--warm);border-radius:8px;height:10px;overflow:hidden">
+        <div style="height:100%;background:${SEVERITY[k].color};width:${Math.round(v/p.logs.length*100)}%;border-radius:8px;transition:width .4s"></div>
+      </div>
+      <span style="font-size:14px;font-weight:700;color:var(--text);min-width:24px">${v}</span>
+    </div>`).join('')}
+  </div>
+
+  ${topCats.length?`<div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:14px">Categorias mais registradas</div>
+    ${topCats.map(([cat,cnt])=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:13px;color:var(--text)">${esc(cat)}</span>
+      <span style="font-weight:700;color:var(--teal)">${cnt}x</span>
+    </div>`).join('')}
+  </div>`:''}
+
+  <div class="card">
+    <div style="font-weight:700;font-size:15px;margin-bottom:14px">Medicamentos</div>
+    ${p.medications.map(m=>{const dl=daysLeft(m.stock,m.daily);return`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div class="med-dot" style="background:${m.color}"></div>
+      <div style="flex:1;font-size:13px">${esc(m.name)} ${esc(m.dose)}</div>
+      <span style="font-size:12px;font-weight:700;color:${dl<7?'var(--danger)':'var(--muted)'}">${dl}d</span>
+    </div>`}).join('')}
+  </div>
+
+  <button onclick="exportReport()" style="width:100%;padding:13px;background:var(--purple);color:white;border-radius:12px;font-size:15px;font-weight:600;margin-top:4px">📄 Exportar relatório (texto)</button>`;
+}
+
+function exportReport(){
+  const p=currentPatient;
+  let txt=`RELATÓRIO DE SAÚDE – ${p.name.toUpperCase()}\n`;
+  txt+=`Gerado em: ${new Date().toLocaleString('pt-BR')}\n`;
+  txt+=`Idade: ${p.age} anos | Condição: ${p.condition}\n`;
+  txt+=`Cuidador: ${p.caregiver}\n\n`;
+  txt+=`MEDICAMENTOS (${p.medications.length}):\n`;
+  p.medications.forEach(m=>{txt+=`  • ${m.name} ${m.dose} – ${m.daily}x/dia – ${daysLeft(m.stock,m.daily)} dias estoque\n`;});
+  txt+=`\nREGISTROS (${p.logs.length}):\n`;
+  [...p.logs].reverse().forEach(l=>{txt+=`  [${fmtDate(l.date)}] ${l.caregiver}: ${l.details} (${l.category} – ${SEVERITY[l.severity].label})\n`;});
+  txt+=`\nBEM-ESTAR (${(p.wellbeingLog||[]).length} registros):\n`;
+  (p.wellbeingLog||[]).slice(-10).reverse().forEach(w=>{txt+=`  [${fmtDate(w.date)} ${w.time||''}] ${w.mood}${w.pain!==null?' | Dor:'+w.pain+'/10':''} ${w.notes?'| '+w.notes:''}\n`;});
+  const blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`relatorio_${p.name.toLowerCase()}_${today()}.txt`;a.click();
+  toast('✅ Relatório exportado!');
+}
+
+// ─── AI CHAT ───
+// ═══════════════════════ AÇÕES RÁPIDAS ═══════════════════════
+const QUICK_ACTIONS = [
+  {
+    group:'🚿 Higiene',color:'#3D8B7A',bg:'#E8F4F1',
+    actions:[
+      {icon:'🚿',label:'Hora do banho',tip:'Prepare o banheiro antes: aqueça o ambiente, deixe toalha e roupa separadas. Avise com carinho: "Vamos tomar um banho gostoso?" Nunca apresse — deixe no ritmo dele. Água morna, não quente. Se resistir muito, banho de esponja é válido.',log:'Horário do banho iniciado.',cat:'🧹 Higiene/Rotina',sev:'LEVE'},
+      {icon:'🪥',label:'Escovar os dentes',tip:'Coloque a escova já com pasta na mão dele. Mostre o movimento — o corpo lembra mesmo quando a mente esquece. Use escova macia. Se necessário, faça junto ou ajude com curativo de gaze. Higiene bucal evita infecções que pioram a confusão.',log:'Higiene bucal realizada.',cat:'🧹 Higiene/Rotina',sev:'LEVE'},
+      {icon:'✂️',label:'Cortar unhas',tip:'Faça com calma, após o banho quando a pele está mais macia. Use cortador adequado para idosos. Unhas dos pés: se estiver difícil ou houver problema circulatório, encaminhe ao podólogo — é coberto pelo SUS.',log:'Unhas cortadas.',cat:'🧹 Higiene/Rotina',sev:'LEVE'},
+      {icon:'👕',label:'Trocar de roupa',tip:'Ofereça duas opções simples: "Quer a camisa azul ou a verde?" Isso preserva autonomia. Roupas com botões grandes ou velcro são mais fáceis. Vista de baixo para cima, sentado. Elogie sempre ao terminar.',log:'Troca de roupa realizada.',cat:'🧹 Higiene/Rotina',sev:'LEVE'},
+    ]
+  },
+  {
+    group:'🍽️ Alimentação',color:'#C9922A',bg:'#FBF4E8',
+    actions:[
+      {icon:'☕',label:'Café da manhã',tip:'Ofereça textura pastosa ou líquida se houver dificuldade de engolir. Posição sentada sempre. Ambiente calmo, sem TV. Não apresse. Boa pedida: mingau de aveia com banana amassada, pão molhado no leite.',log:'Café da manhã servido.',cat:'🍽️ Alimentação/Deglutição',sev:'LEVE'},
+      {icon:'🥣',label:'Almoço',tip:'Prefira alimentos amassados ou desfiados. Consomê, sopas cremosas e purês são ideais. Colher em vez de garfo. Ofereça água ou suco entre as garfadas. Se engasgar, incline levemente a cabeça para frente — nunca para trás.',log:'Almoço servido.',cat:'🍽️ Alimentação/Deglutição',sev:'LEVE'},
+      {icon:'🍵',label:'Lanche da tarde',tip:'Lanche leve: frutas amassadas, iogurte, vitamina. Evite alimentos secos ou muito duros. Um copo de leite morno com mel à tarde ajuda o sono à noite.',log:'Lanche da tarde servido.',cat:'🍽️ Alimentação/Deglutição',sev:'LEVE'},
+      {icon:'🥗',label:'Jantar',tip:'Jantar deve ser leve — sopas, cremes, omelete mole. Evite refeições pesadas perto da hora de dormir. Ofereça o jantar pelo menos 2 horas antes de deitar para facilitar a digestão.',log:'Jantar servido.',cat:'🍽️ Alimentação/Deglutição',sev:'LEVE'},
+      {icon:'💧',label:'Oferecer água',tip:'Idosos raramente sentem sede — ofereça água a cada 2 horas mesmo sem pedir. Desidratação aumenta confusão, infecção urinária e agitação. Se recusar água pura, tente suco diluído, água de coco ou chá morno.',log:'Hidratação oferecida.',cat:'🍽️ Alimentação/Deglutição',sev:'LEVE'},
+    ]
+  },
+  {
+    group:'💊 Medicação',color:'#E07055',bg:'#FBF0ED',
+    actions:[
+      {icon:'🌅',label:'Remédios da manhã',tip:'Dê os remédios sempre com água, nunca em seco. Se ele tiver dificuldade de engolir comprimidos, consulte o farmacêutico — alguns podem ser triturados, outros não. Nunca triture sem confirmar antes.',log:'Remédios da manhã administrados.',cat:'💊 Medicação',sev:'LEVE'},
+      {icon:'🌆',label:'Remédios do almoço',tip:'Lembre-se de registrar aqui. Se esqueceu e já passou menos de metade do tempo até a próxima dose, dê agora. Se passou mais da metade, pule esta dose e continue normalmente. Nunca dose dupla.',log:'Remédios do almoço administrados.',cat:'💊 Medicação',sev:'LEVE'},
+      {icon:'🌙',label:'Remédios da noite',tip:'Remédios noturnos geralmente incluem sedativos ou melatonina. Dê com pelo menos 30min de antecedência antes de dormir para começar a agir. Registro é importante para rastrear adesão ao tratamento.',log:'Remédios da noite administrados.',cat:'💊 Medicação',sev:'LEVE'},
+      {icon:'❌',label:'Recusou o remédio',tip:'Não force — isso pode causar engasgo ou aumentar a resistência. Tente de novo em 15 min. Misture em iogurte ou suco se for permitido (confirme com farmacêutico). Se recusar repetidamente, informe o médico.',log:'Recusou tomar o remédio. Nova tentativa necessária.',cat:'💊 Medicação',sev:'MODERADO'},
+    ]
+  },
+  {
+    group:'🚶 Mobilidade',color:'#7B6BAE',bg:'#F0EEF8',
+    actions:[
+      {icon:'🛏️',label:'Levantando da cama',tip:'NUNCA levante de uma vez. Siga estes passos: (1) Vire de lado primeiro; (2) Sente na beira da cama com os pés no chão; (3) Espere 1 minuto — a pressão precisa se ajustar; (4) Levante devagar apoiado. Hipotensão postural é muito comum na Síndrome de Lewy e causa tontura e quedas.',log:'Levantou da cama com assistência.',cat:'💪 Quedas/Postura',sev:'LEVE'},
+      {icon:'🪑',label:'Levantando da cadeira',tip:'Coloque os pés bem apoiados no chão antes de levantar. Incline levemente para frente ("nariz sobre os dedos dos pés"). Apoie nos braços da cadeira. Levante devagar. Fique ao lado para apoiar — não puxe pelo braço.',log:'Levantou da cadeira com assistência.',cat:'💪 Quedas/Postura',sev:'LEVE'},
+      {icon:'🚶',label:'Caminhada de hoje',tip:'Caminhe ao lado dele, não na frente nem atrás. Permita o ritmo dele. Passos pequenos e firmes — se arrastar os pés, diga "levanta o pé" ou bata palmas no ritmo. 10 a 15 minutos por dia já fazem diferença. Evite pisos irregulares ou molhados.',log:'Caminhada realizada.',cat:'💪 Quedas/Postura',sev:'LEVE'},
+      {icon:'💪',label:'Exercício leve',tip:'Exercícios sentados são seguros e eficazes: elevar os braços, abrir e fechar as mãos, girar os tornozelos, levantar os pés alternadamente. 5 a 10 repetições, 2x por dia. Musicoterapia durante o exercício aumenta a adesão e o prazer.',log:'Exercício leve realizado.',cat:'💪 Quedas/Postura',sev:'LEVE'},
+      {icon:'⚠️',label:'Dificuldade de se mover',tip:'Rigidez e lentidão de movimento são sintomas parkinsonianos muito comuns na Síndrome de Lewy. Não force nem apresse. O que ajuda: (1) Dê uma dica verbal: "Um, dois, três — vai!"; (2) Bata palmas ou marque um ritmo; (3) Uma música animada pode "desbloquear" o movimento; (4) Toque suave no ombro ajuda a iniciar. Se a rigidez piorou muito de repente, informe o médico — pode ser sinal de efeito colateral de medicamento.',log:'Dificuldade de movimentação observada.',cat:'🔄 Rigidez/Parkinsoniana',sev:'MODERADO'},
+      {icon:'🦽',label:'Caiu agora',tip:'🚨 NÃO levante imediatamente. Primeiro: (1) Verifique se está consciente e respondendo; (2) Pergunte sobre dor — especialmente cabeça, quadril e punhos; (3) Se bateu a cabeça ou há dor intensa: ligue 192 (SAMU) AGORA; (4) Se não há suspeita de lesão grave: ajude a sentar primeiro, espere 1 min, depois a levantar; (5) Registe o ocorrido e informe o médico.',log:'⚠️ QUEDA: paciente caiu. Verificado e assistido.',cat:'💪 Quedas/Postura',sev:'GRAVE'},
+    ]
+  },
+  {
+    group:'😴 Sono e descanso',color:'#3D8B5A',bg:'#E8F4EC',
+    actions:[
+      {icon:'😴',label:'Hora de dormir',tip:'Rotina antes de dormir reduz a agitação noturna: (1) Luzes mais baixas 1 hora antes; (2) TV desligada; (3) Lanche leve se tiver costume; (4) Higiene bucal; (5) Uma música calma ou oração; (6) Temperatura do quarto entre 18–22°C. Fale com voz baixa e calma.',log:'Preparação para dormir iniciada.',cat:'😴 Distúrbios do Sono REM',sev:'LEVE'},
+      {icon:'🌙',label:'Noite agitada',tip:'Noites agitadas são comuns na Síndrome de Lewy. Não acenda a luz forte — use lanterna ou luz indireta. Fale bem baixo: "Estou aqui. Você está seguro." Ofereça a mão. Não discuta se ele achar que está em outro lugar. Uma música suave pode ajudar muito. Anote o horário e a duração — é informação valiosa para o médico.',log:'Noite agitada registrada.',cat:'😴 Distúrbios do Sono REM',sev:'MODERADO'},
+      {icon:'☀️',label:'Acordou bem',tip:'Ótimo! Manhãs boas são preciosas. Aproveite este momento mais lúcido para: conversar, olhar fotos, contar histórias, fazer higiene com mais calma. Registre — isso ajuda a identificar padrões de dias bons.',log:'Acordou bem esta manhã.',cat:'❤️ Sinais Vitais',sev:'LEVE'},
+      {icon:'😵',label:'Confuso ao acordar',tip:'Confusão ao acordar é muito comum — o cérebro demora mais para "ligar". Não assuste: (1) Fique quieto ao lado por 1-2 minutos; (2) Fale devagar: "Bom dia João, sou a Maria. É manhã, está tudo bem."; (3) Deixe a luz entrar; (4) Não faça perguntas complexas imediatamente; (5) Ofereça água. Dê tempo — ele vai se localizar.',log:'Confusão ao acordar observada.',cat:'🧠 Variação Cognitiva',sev:'MODERADO'},
+    ]
+  },
+  {
+    group:'😊 Humor e comportamento',color:'#B5548A',bg:'#F8EDF4',
+    actions:[
+      {icon:'😟',label:'Está triste ou quieto',tip:'Apatia e tristeza são sintomas da doença, não fraqueza. Não tente "animar à força". O que ajuda: presença silenciosa, segurar a mão, colocar uma música favorita, sentar junto na varanda. Se a tristeza for persistente por mais de uma semana, informe o médico — pode ser depressão tratável.',log:'Humor baixo/apatia observada.',cat:'😟 Agitação/Comportamento',sev:'MODERADO'},
+      {icon:'😤',label:'Está irritado ou agitado',tip:'Respire fundo antes de agir. Fale baixo e devagar. Não discuta e não explique muito. Reduza estímulos (TV, barulho). Tente descobrir a causa: dor, frio, fome, bexiga cheia? Ofereça toque suave ou objeto familiar. Música calma funciona muito. Se não melhorar em 20 min ou houver risco de queda, ligue para o médico.',log:'Agitação/irritação observada.',cat:'😟 Agitação/Comportamento',sev:'MODERADO'},
+      {icon:'😄',label:'Dia bom / momento feliz',tip:'Registre este momento! Momentos de alegria e lucidez são presentes preciosos. Aproveite para conversar sobre memórias, ouvir músicas favoritas, fazer algo que ele goste. Tire uma foto mental — e lembre-se deste momento nos dias difíceis.',log:'Momento de alegria e bem-estar observado.',cat:'❤️ Sinais Vitais',sev:'LEVE'},
+      {icon:'👁️',label:'Viu algo que não existe',tip:'Alucinação visual — não corrija. Para ele, é real. (1) Fique calmo — seu medo aumenta o dele; (2) Diga: "Entendo que você viu isso. Estou aqui com você."; (3) Ligue a luz; (4) Ofereça a mão; (5) Mude o ambiente ou o foco; (6) Nunca dê antipsicóticos sem orientação médica. Anote o horário — alucinações têm padrão e isso ajuda o médico.',log:'Alucinação visual observada.',cat:'👁️ Alucinações Visuais',sev:'MODERADO'},
+    ]
+  },
+  {
+    group:'⚕️ Sinais de alerta',color:'#C94040',bg:'#FBE8E8',
+    actions:[
+      {icon:'🌡️',label:'Febre ou mal-estar',tip:'⚠️ Febre acima de 37,5°C em idoso com demência é sinal de alerta. Causas comuns: infecção urinária (muito frequente), pneumonia, infecção na pele. Sintoma muitas vezes é só confusão aumentada — sem febre alta. Ligue para o médico. Enquanto isso: ofereça água, roupa leve, pano úmido na testa. Nunca manta grossa com febre.',log:'⚠️ Febre ou mal-estar observado.',cat:'❤️ Sinais Vitais',sev:'GRAVE'},
+      {icon:'🫁',label:'Dificuldade para respirar',tip:'🚨 EMERGÊNCIA — Ligue 192 (SAMU) agora se: respiração muito rápida ou muito lenta, lábios ou dedos roxos, confusão súbita com falta de ar. Enquanto espera: mantenha sentado ou semi-deitado (nunca deitado de costas plano), solte roupas apertadas, abra a janela.',log:'🚨 EMERGÊNCIA: dificuldade respiratória observada.',cat:'❤️ Sinais Vitais',sev:'CRITICO'},
+      {icon:'💊',label:'Tomou remédio errado',tip:'⚠️ AÇÃO IMEDIATA: (1) Identifique qual remédio e quanto; (2) Ligue para o CVS (Centro de Vigilância Sanitária) ou para o médico imediatamente; (3) Se for antipsicótico típico na Síndrome de Lewy: SAMU 192 agora; (4) Não induza vômito sem orientação médica; (5) Guarde a embalagem para mostrar ao atendimento.',log:'🚨 Possível medicação incorreta. Ação tomada.',cat:'💊 Medicação',sev:'CRITICO'},
+      {icon:'🤢',label:'Enjoo ou vômito',tip:'Náusea e vômito podem indicar: efeito de medicamento, infecção, obstipação severa ou problema neurológico. Medidas imediatas: posição sentada ou de lado (nunca de costas), ofereça água aos poucos após parar, registre quantas vezes vomitou. Se persistir por mais de 2 horas ou vier com febre: ligue para o médico.',log:'Náusea ou vômito observado.',cat:'❤️ Sinais Vitais',sev:'GRAVE'},
+    ]
+  },
+];
+
+// ═══════════════════════ ASSISTENTE LOCAL (100% GRATUITO, SEM API) ═══════════════════════
+// Base de conhecimento sobre Síndrome de Lewy + lógica baseada nos dados reais do paciente
+
+const KNOWLEDGE = [
+  // ── ALUCINAÇÕES ──
+  {keys:['alucinac','alucinac','vendo','visao','figura','fantasma','pessoa','bicho','inseto','ver coisas','ve coisa','alguem','gente','crianca','animal','cachorro','cobra','formiga','sombra','sente','escuta vozes','ouve coisas','voz','vozes','ouvindo','ouve','falando sozinho','responde sozinho'],
+   answer:(p)=>{
+    const logs=p.logs.filter(l=>l.category.includes('Alucinaç')).slice(-3);
+    let r=`As alucinações visuais são um dos sintomas mais marcantes da Síndrome de Lewy e acontecem porque o cérebro processa informações visuais de forma diferente.\n\n`;
+    r+=`**O que fazer no momento:**\n• Fique calmo — o medo do cuidador aumenta o medo do paciente\n• Não diga "isso não existe" — para ${p.name}, é real\n• Diga com carinho: "Estou aqui com você. Você está seguro."\n• Ligue a luz do ambiente — claridade reduz alucinações\n• Ofereça a mão ou um toque suave para trazer de volta ao presente\n• Mude o foco: proponha uma música, um copo de água, um abraço\n\n`;
+    r+=`**⚠️ NUNCA use** Haloperidol, Risperidona ou outros antipsicóticos típicos — podem causar reação grave na Síndrome de Lewy.\n\n`;
+    if(logs.length>0) r+=`📋 Nos seus registros, ${p.name} teve ${logs.length} episódio(s) de alucinação recentemente. Anote os horários — muitas vezes ocorrem mais à tarde ou à noite (entardecer).\n\n`;
+    r+=`Se os episódios estão aumentando ou causando agitação intensa, converse com o neurologista. Há medicamentos seguros (como Rivastigmina) que podem ajudar.`;
+    return r;
+  }},
+
+  // ── AGITAÇÃO / CRISE ──
+  {keys:['agitad','crise','agress','gritar','nervos','bravo','brav','irritad','inquiet','ansios','berrand','chorando muito','nao para','nao quer','resistindo','rebeld','teimoso','nao deixa','recusa','briga','gritand','chuta','empurra','nao quer fazer','faz escandalo','geme','lamenta','geme de dor'],
+   answer:(p)=>{
+    const logs=p.logs.filter(l=>l.category.includes('Agita')||l.severity==='GRAVE'||l.severity==='CRITICO').slice(-2);
+    let r=`Crises de agitação são comuns na Síndrome de Lewy e costumam ter uma causa — dor, medo, desconforto, fome, barulho ou simplesmente uma flutuação cognitiva.\n\n`;
+    r+=`**Neste momento, siga estes passos:**\n1. Respire fundo você também — sua calma é o remédio mais poderoso\n2. Abaixe a voz. Fale devagar e bem baixo\n3. Reduza estímulos: apague TV, feche janelas barulhentas\n4. Tente descobrir o que está incomodando: "Você está com dor? Está com medo?"\n5. Ofereça algo seguro: mão, almofada, objeto familiar\n6. Coloque uma música calma (veja a aba 🎵)\n7. Se não melhorar em 15–20 minutos, ligue para o médico\n\n`;
+    if(logs.length>0) r+=`📋 Nos seus registros há ${logs.length} episódio(s) de agitação recente. Se estiver aumentando, é importante relatar ao médico na próxima consulta.\n\n`;
+    r+=`**🚨 Ligue 192 (SAMU) se:** houver risco de queda, autolesão ou se ${p.name} não reconhecer o ambiente por muito tempo.`;
+    return r;
+  }},
+
+  // ── REMÉDIOS / MEDICAMENTOS ──
+  {keys:['remedio','medicamento','comprimido','dose','tomar','esqueci','horario','estoque','capsula','xarope','injecao','patch','adesivo','prescricao','receita','farmacia','tomou errado','tomou dois','dose dupla','esqueceu','nao tomou','nao quis tomar','recusou o remedio','cuspiu o remedio','escondeu o remedio','guarda na boca','nao engoliu'],
+   answer:(p)=>{
+    const meds=p.medications;
+    const low=meds.filter(m=>daysLeft(m.stock,m.daily)<7);
+    let r=`**Remédios atuais de ${p.name}:**\n`;
+    meds.forEach(m=>{
+      const dl=daysLeft(m.stock,m.daily);
+      r+=`• **${m.name} ${m.dose}** — ${m.daily}x/dia (${m.times.join(', ')}) — ${dl} dias de estoque${dl<7?' ⚠️ BAIXO':''}\n`;
+      if(m.notes) r+=`  ℹ️ ${m.notes}\n`;
+    });
+    r+=`\n**⚠️ EVITAR na Síndrome de Lewy:**\nHaloperidol, Risperidona, Olanzapina, Clorpromazina. Eles podem causar reação muito grave — rigidez, febre, piora súbita.\n\n`;
+    r+=`**✅ Geralmente seguros:** Donepezila, Rivastigmina, Melatonina, Carbidopa-Levodopa (sempre com orientação médica).\n\n`;
+    if(low.length>0) r+=`🔴 **Estoque baixo:** ${low.map(m=>m.name).join(', ')}. Providencie a renovação da receita o quanto antes.\n\n`;
+    r+=`Se esqueceu de dar um remédio, não dê dose dupla. Dê assim que lembrar, se não estiver muito perto do horário seguinte. Em caso de dúvida, consulte o médico ou farmacêutico.`;
+    return r;
+  }},
+
+  // ── SONO ──
+  {keys:['sono','dormir','dormindo','acordou','pesadelo','noite','insonia','cansad','ronco','grita dormindo','sono rem','nao dormiu','dormiu mal','nao dorme','nao consegue dormir','acorda muito','agitacao noturna','noite ruim','inquieto na cama','se mexe muito dormindo','grita de noite'],
+   answer:(p)=>{
+    const sleepLogs=p.logs.filter(l=>l.category.includes('Sono')).slice(-3);
+    let r=`Os distúrbios do sono REM são característicos da Síndrome de Lewy. ${p.name} pode agir os sonhos — gritar, se mexer, dar socos — e isso é parte da doença, não é "mal comportamento".\n\n`;
+    r+=`**Para melhorar o sono noturno:**\n• Mantenha o mesmo horário de acordar e dormir todos os dias\n• Evite cochilos longos após as 15h\n• Faça uma atividade calma à tarde: música, leitura, conversa\n• Ambiente escuro, silencioso e fresco (18–22°C é ideal)\n• Não use TV no quarto\n• Ofereça lanche leve 1 hora antes de dormir (leite morno com mel)\n• A Melatonina pode ajudar muito — mas só com orientação médica\n\n`;
+    if(sleepLogs.length>0) r+=`📋 Nos seus registros há ${sleepLogs.length} nota(s) sobre sono. Leve esse histórico ao médico — ele pode ajustar o tratamento.\n\n`;
+    r+=`**⚠️ Segurança no quarto:** retire objetos que ${p.name} possa pegar durante os sonhos. Em casos mais graves, peça ao médico avaliação para Clonazepam ou Melatonina em dose ajustada.`;
+    return r;
+  }},
+
+  // ── MOBILIDADE / RIGIDEZ / MOVIMENTO ──
+  {keys:['mover','moviment','andar','caminhar','locomov','levantar','sentar','rigid','lento','devagar','arrastand','tremer','tremor','equilibr','postura','parkinson','dificuld','nao conseg','nao se mexe','mexer','nao anda','nao sai do lugar','parado','travad','bloquead','nao consegue','dificil para se mover','dificil de mover','dificuldade de moviment','perna pesada','corpo rigido','fica teso'],
+   answer:(p)=>{
+    const mobLogs=p.logs.filter(l=>l.category.includes('Rigidez')||l.category.includes('Quedas')||l.category.includes('Postura')).slice(-3);
+    let r=`A dificuldade de movimentação, rigidez e lentidão são sintomas parkinsonianos muito comuns na Síndrome de Lewy — e podem variar muito de dia para dia, e até de hora em hora. Isso é a doença, não é falta de esforço.\n\n`;
+    r+=`**O que ajuda agora:**\n• Dê uma dica verbal rítmica: "Um, dois, três — vai!" — o ritmo externo ajuda o cérebro a iniciar o movimento\n• Bata palmas ou marque um compasso com o pé\n• Coloque uma música com batida marcada — ajuda a "desbloquear" os passos\n• Toque suave no ombro ou na mão antes de pedir o movimento\n• Nunca puxe pelo braço — apoie pelo cotovelo ou pela cintura\n• Dê tempo — não apresse\n\n`;
+    r+=`**Para levantar da cama ou cadeira:**\n• Incline o corpo para frente primeiro ("nariz sobre os dedos dos pés")\n• Apoie nas mãos antes de empurrar\n• Espere 1 minuto sentado antes de ficar em pé — evita tontura\n\n`;
+    if(mobLogs.length>0) r+=`📋 Você tem ${mobLogs.length} registro(s) sobre mobilidade. Se a dificuldade piorou de repente, informe o médico — pode ser efeito de medicamento ou infecção.\n\n`;
+    r+=`**Fisioterapia** ajuda muito na Síndrome de Lewy — peça encaminhamento ao médico. Está disponível pelo SUS.`;
+    return r;
+  }},
+
+  // ── QUEDAS ──
+  {keys:['queda','caiu','cair','tropeç','tropeçou','equilibrio','bengala','andador','tombou','escorregou'],
+   answer:(p)=>{
+    let r=`Quedas são um risco real na Síndrome de Lewy devido à rigidez e instabilidade postural. A boa notícia é que muitas podem ser prevenidas.\n\n`;
+    r+=`**Adaptações urgentes em casa:**\n• Tapetes soltos: retire-os agora — são a causa nº 1 de quedas\n• Banheiro: instale barras de apoio, tapete antiderrapante\n• Quarto: deixe o caminho até o banheiro sempre livre e iluminado\n• Móveis: afaste ou retire mesas de canto e objetos no chão\n• Calçados: use sapatos fechados com solado antiderrapante (nunca chinelo solto)\n\n`;
+    r+=`**Ao caminhar junto:**\n• Caminhe ao lado, não puxando pelo braço\n• Permita que ${p.name} faça o ritmo\n• Fale antes de iniciar qualquer movimento: "Vamos levantar agora, pode ir"\n• Use bengala ou andador se o médico indicou\n\n`;
+    r+=`**Se houver queda:**\n• Não tente levantar sozinho — você pode se machucar também\n• Verifique consciência e dor antes de mover\n• Se bater a cabeça: ligue 192 (SAMU) mesmo que pareça bem\n• Fisioterapia ajuda muito — peça encaminhamento ao médico`;
+    return r;
+  }},
+
+  // ── COMUNICAÇÃO ──
+  {keys:['comunicar','comunicação','conversa','falar','entender','explicar','paciência','repetindo','repete'],
+   answer:(p)=>{
+    let r=`Comunicar-se com ${p.name} pode exigir mais paciência, e tudo bem. O cérebro processa informações mais devagar na Síndrome de Lewy, mas o coração ainda sente tudo.\n\n`;
+    r+=`**Como se comunicar melhor:**\n• Frases curtas, uma ideia por vez: "Hora de tomar o remédio" (não: "Toma o remédio e depois a gente vai almoçar que fiz feijão")\n• Fale devagar, olhando nos olhos\n• Dê tempo para responder — espere ao menos 10 segundos\n• Não corrija ou discuta — redirecione com carinho\n• Use o nome: "João, olha para mim"\n• Toque suave no ombro ajuda a trazer atenção\n• Perguntas simples: prefira "Quer água?" a "O que você quer tomar?"\n\n`;
+    r+=`**Quando ele não reconhecer você:**\nIsso pode acontecer nas flutuações cognitivas. Não se magoe — é a doença. Apresente-se com calma: "Sou a Maria, sua esposa. Estou aqui com você." Sorria sempre.`;
+    return r;
+  }},
+
+  // ── ALIMENTAÇÃO ──
+  {keys:['comer','comida','alimenta','engolir','deglutic','engasgou','engasgo','prato','refeicao','apetite','nao quer comer','recusa comida','nao come','vomitou','vomitar','enjoo','nausea','nao abre a boca','cuspe','cuspiu','tosse comendo','engoliu errado','foi pro pulmao','perdeu apetite','magreceu','nao quer beber','nao bebe agua','nao quer agua'],
+   answer:(p)=>{
+    const foodLogs=p.logs.filter(l=>l.category.includes('Alimenta')).slice(-2);
+    let r=`A alimentação na Síndrome de Lewy pode ser desafiadora — dificuldade de engolir (disfagia), falta de apetite e lentidão são comuns.\n\n`;
+    r+=`**Dicas para as refeições:**\n• Textura pastosa ou cremosa é mais segura — sopas, mingaus, vitaminas\n• Ofereça pequenas porções várias vezes ao dia\n• Posição: sempre sentado ou semi-inclinado, nunca deitado\n• Ambiente tranquilo, sem TV durante a refeição\n• Dê tempo — não apresse\n• Utensílios: use colher em vez de garfo, copo com alça\n• Temperatura morna (não muito quente, não gelado)\n\n`;
+    r+=`**Receitas fáceis:** veja a aba 🍽️ — temos receitas especialmente adaptadas.\n\n`;
+    if(foodLogs.length>0) r+=`📋 Você registrou ${foodLogs.length} nota(s) sobre alimentação.\n\n`;
+    r+=`**🚨 Atenção:** Se ${p.name} engasgar frequentemente, tossir muito durante as refeições ou parecer ter dificuldade real para engolir, peça ao médico encaminhamento para fonoaudióloga — ela avalia e orienta a textura ideal dos alimentos.`;
+    return r;
+  }},
+
+  // ── HIGIENE / BANHO ──
+  {keys:['banho','higiene','troca','roupa','escovar','dente','resistencia','nao quer tomar banho','nao quer banho','recusa banho','sujo','fedorento','cheiro','unhas','cabelo','barba','fralda','absorvente','xixi na cama','fez nas calca','incontinencia','vazou','fezes','cocô','uro','urina','molhou a cama'],
+   answer:(p)=>{
+    let r=`Resistência ao banho e à higiene é muito comum — pode ser medo, sensação de frio, confusão ou simplesmente perda da noção da necessidade.\n\n`;
+    r+=`**Estratégias que funcionam:**\n• Escolha o horário em que ${p.name} está mais calmo e alerta (geralmente pela manhã)\n• Avise antes: "Daqui a pouco a gente vai tomar banho, tá bom?"\n• Deixe o banheiro aquecido e a toalha já pronta\n• Barras de apoio e banco de banho trazem mais segurança\n• Água na temperatura certa — verifique antes\n• Preserve a dignidade: cubra com toalha as partes não lavadas\n• Se a resistência for muito grande, considere banho de esponja em dias difíceis\n• Elogie sempre: "Muito bem, ficou cheiroso!"\n\n`;
+    r+=`Lembre que a higiene é importante para prevenir infecções, mas não vale a pena criar um conflito grande. Flexibilidade e criatividade ajudam mais que insistência.`;
+    return r;
+  }},
+
+  // ── CUIDADOR / ESGOTAMENTO ──
+  {keys:['cansada','cansado','esgotad','nao aguento','dificil','sozinh','ajuda','chorei','chorando','deprimid','minha saude','quem cuida de mim','nao tenho forca','to mal','estou mal','nao consigo mais','precisando de ajuda','me ajuda','nao durmi','nao dormi','sem dormir','sem descanso','sem parar','é muito pesado','pesado demais','nao aguento mais','quer desistir','culpa','me sinto culpada','me sinto culpado','tristeza','triste','saudade','perda','perdendo','nao e mais ele','nao e mais ela'],
+   answer:(p)=>{
+    let r=`Antes de tudo: obrigada. Cuidar de alguém com Síndrome de Lewy é um dos trabalhos mais difíceis e mais amorosos que existem. Você merece muito respeito.\n\n`;
+    r+=`O esgotamento do cuidador é real e sério — e cuidar de si mesmo não é egoísmo, é necessidade. Se você cair, quem cuida de ${p.name}?\n\n`;
+    r+=`**Pequenos passos que ajudam:**\n• Aceite ajuda quando oferecida — delegue o que puder\n• Reserve ao menos 15 minutos por dia só para você (oração, chá, música)\n• Durma quando ${p.name} dormir, se possível\n• Chore se precisar — é humano e alivia\n• Converse com alguém de confiança sobre o que sente\n• Grupo de apoio para cuidadores de Lewy: pesquise online ou na UBS mais próxima\n\n`;
+    r+=`**Recursos gratuitos no Brasil:**\n• CVV (apoio emocional gratuito): ligue **188** ou acesse cvv.org.br\n• CAPS (Centro de Atenção Psicossocial): atendimento gratuito pelo SUS\n• ABRAZ (Associação Brasileira de Alzheimer): abraz.org.br — apoio também para Lewy\n\nVocê não está sozinha/sozinho nessa.`;
+    return r;
+  }},
+
+  // ── EMERGÊNCIA ──
+  {keys:['emergencia','urgencia','samu','hospital','pronto socorro','nao esta respirando','desmaio','convulsao','muito piorou','perdeu a consciencia','desmaiou','nao acorda','nao responde','roxo','azulado','sangue','sangramento','fratura','quebrou o osso','bateu a cabeca','golpe','acidente','choque','convulsionando'],
+   answer:(p)=>{
+    return `**🚨 EM CASO DE EMERGÊNCIA:**\n\n• **SAMU: 192** (ambulância)\n• **Bombeiros: 193**\n• **Pronto-Socorro:** leve ${p.name} imediatamente\n\n**Ligue 192 se:**\n• Dificuldade para respirar\n• Perda de consciência\n• Convulsão\n• Queda com batida na cabeça\n• Febre alta (acima de 38,5°C) associada a confusão súbita\n• Rigidez extrema e repentina (pode ser reação a medicamento)\n\n**Enquanto espera o SAMU:**\n• Mantenha ${p.name} deitado de lado (posição lateral de segurança)\n• Não ofereça água ou comida\n• Afaste objetos que possam machucar\n• Fique ao lado e fale com calma: "Estou aqui. Você está seguro."`;
+  }},
+
+  // ── FLUTUAÇÃO COGNITIVA ──
+  {keys:['confuso','confusao','desorientado','nao reconhece','estranho','dia bom','dia ruim','as vezes bem','flutuac','esqueceu','esquece','nao lembra','memoria','perdido','nao sabe','nao sabe onde esta','acha que esta','acha que e','pensa que e','pensou que','outro lugar','outro tempo','nao entende','nao responde','nao fala','mudo','nao reage','largado','sumido','ausente','viajou','viajand'],
+   answer:(p)=>{
+    const cogLogs=p.logs.filter(l=>l.category.includes('Cognitiva')).slice(-2);
+    let r=`A flutuação cognitiva — ter dias bons e dias ruins, ou mesmo horas boas e horas difíceis no mesmo dia — é uma das marcas registradas da Síndrome de Lewy. Não é preguiça, não é "frescura" e não é sinal de piora: é a própria doença.\n\n`;
+    r+=`**O que ajuda:**\n• Nos momentos bons: aproveite para conversar, relembrar memórias, fazer atividades juntos\n• Nos momentos difíceis: mantenha a rotina, reduza estímulos, fale menos e com mais calma\n• Não compare dias: cada dia é único\n• Registre no diário quais horários costumam ser melhores — isso ajuda o médico a ajustar o tratamento\n\n`;
+    if(cogLogs.length>0) r+=`📋 Você tem ${cogLogs.length} registro(s) sobre variação cognitiva. Leve para a consulta.\n\n`;
+    r+=`**Dica:** muitos pacientes com Lewy ficam mais confusos à tarde/noite (fenômeno do "entardecer"). Se isso acontece com ${p.name}, planeje as atividades mais exigentes pela manhã.`;
+    return r;
+  }},
+
+  // ── ATIVIDADE / ESTIMULAÇÃO ──
+  {keys:['atividade','estimula','ocupar','entreter','passatempo','fazer','jogar','pintar','o que faz','dia longo','entediado','nao tem o que fazer','como animar','como entreter','sugestao','ideia','o que posso fazer','o que fazer com','ficou parado','nao quer fazer nada','apatia','sem iniciativa','desanimado','perdeu interesse','nao quer sair','nao tem vontade'],
+   answer:(p)=>{
+    return `Estimulação suave e prazerosa faz muito bem para ${p.name} — mantém o cérebro ativo e melhora o humor.\n\n**Atividades recomendadas para Síndrome de Lewy:**\n• 🎵 Música: a aba de musicoterapia tem playlists especiais\n• 📸 Memórias: olhar fotos antigas juntos (veja a aba de memórias)\n• 🌳 Natureza: sentar à janela ou varanda, olhar o jardim\n• 🧩 Jogos simples: dominó, baralho, palavras cruzadas fáceis\n• ✋ Artesanato leve: dobrar guardanapos, separar feijão (movimentos repetitivos são calmantes)\n• 📖 Leitura em voz alta: leia para ${p.name} — poesia, bíblia, jornal\n• 🙏 Espiritualidade: oração, hinários — conforta muito\n• 🚶 Caminhada curta (10–15min) quando o tempo e disposição permitirem\n\n**Evite:** atividades com muitos estímulos ao mesmo tempo, barulho intenso ou que exijam muita concentração nos dias difíceis.`;
+  }},
+
+  // ── RELATÓRIO / MÉDICO ──
+  {keys:['medico','consulta','relatorio','neurologista','exame','proxima consulta','o que falar','documentar','receita','prescricao','laudo','resultado','encaminhamento','fisioterapeuta','fonoaudiologa','terapeuta ocupacional','enfermeira','ubs','sus','plano de saude','convenio','internacao','hospital','consulta marcada','agendamento'],
+   answer:(p)=>{
+    const totalLogs=p.logs.length;
+    const critical=p.logs.filter(l=>l.severity==='CRITICO'||l.severity==='GRAVE').length;
+    const wb=(p.wellbeingLog||[]).length;
+    let r=`Ótimo hábito pensar nisso! Levar informações organizadas para o médico muda completamente a qualidade da consulta.\n\n`;
+    r+=`**O que você tem registrado até agora:**\n• ${totalLogs} observações no diário\n• ${wb} registros de bem-estar\n• ${critical} ocorrências graves ou críticas\n• ${p.medications.length} medicamentos ativos\n\n`;
+    r+=`**Use a aba 📊 Relatório para exportar** um arquivo de texto com tudo isso — leve impresso ou mostre no celular ao médico.\n\n`;
+    r+=`**Perguntas importantes para fazer ao neurologista:**\n• Os medicamentos atuais ainda são os mais adequados?\n• Existe algo a ajustar para melhorar o sono?\n• Preciso de encaminhamento para fisioterapia ou fonoaudiologia?\n• Quais sinais indicam que preciso ir ao pronto-socorro?\n• Existe grupo de apoio para cuidadores no nosso município?`;
+    return r;
+  }},
+
+  // ── DORES / SINTOMAS FÍSICOS ──
+  {keys:['dor','doendo','doi','machucando','pressao','febre','temperatura','inchaco','urina','infeccao','ardencia','queimacao','formigamento','fraqueza','tontura','enjoo','vomito','tosse','catarro','muco','nariz escorrendo','gripado','resfriad','dor de barriga','intestino','constipado','prisao de ventre','nao fez coco','barriga inchada','inchado','incha','inchou','suor frio','palido','palidez','cor diferente','febre baixa'],
+   answer:(p)=>{
+    const painLogs=(p.wellbeingLog||[]).filter(w=>w.pain>=5).slice(-3);
+    let r=`Sintomas físicos em idosos com demência merecem atenção dobrada — às vezes a dor ou desconforto se manifesta como agitação, choro ou comportamento diferente, porque ${p.name} pode ter dificuldade de comunicar o que sente.\n\n`;
+    r+=`**Observe e registre:**\n• Febre acima de 37,5°C — pode ser infecção urinária (muito comum em idosos)\n• Mudança súbita de comportamento — pode indicar dor ou infecção\n• Urina com cheiro forte, escura ou com sangue → médico urgente\n• Prisão de ventre por mais de 3 dias → risco de desconforto e agitação\n\n`;
+    if(painLogs.length>0) r+=`📋 Nos seus registros de bem-estar, ${p.name} teve dor igual ou acima de 5/10 em ${painLogs.length} momento(s) recente(s). Mencione ao médico.\n\n`;
+    r+=`**Hidratação:** ofereça água a cada 2 horas — idosos raramente sentem sede e a desidratação agrava a confusão.\n\n**Se a dor for intensa ou houver febre alta:** ligue para o médico ou vá ao pronto-socorro.`;
+    return r;
+  }},
+
+  // ── ESPIRITUALIDADE ──
+  {keys:['oracao','rezar','deus','fe','biblia','hino','espiritual','paz','consolo','igreja','crenca','religiao','pastor','padre','missa','culto','evangelho','salmo','jesus','santo','nossa senhora','zelar','benzer','benedicao','conforto espiritual','morte','morrer','fim da vida','cuidado paliativo','paliativo','hospice','passamento'],
+   answer:(p)=>{
+    return `A espiritualidade é um recurso precioso — tanto para ${p.name} quanto para você como cuidadora/cuidador. Não subestime o poder disso.\n\n**Para ${p.name}:**\n• Orações familiares trazem conforto mesmo quando a memória falha — o coração guarda o que o cérebro esquece\n• Hinos conhecidos podem ser cantados juntos (veja a aba 🎵 — tem hinos e músicas de louvor)\n• Leitura bíblica em voz alta, mesmo que ${p.name} não responda, é acolhedora\n• Imagens ou objetos religiosos no quarto trazem sensação de segurança\n\n**Para você:**\n• A oração alivia o peso de cuidar\n• Se a sua comunidade religiosa souber da situação, pode oferecer visitas e apoio prático\n• Permitir-se sentir gratidão — mesmo nos momentos difíceis — fortalece\n\n"Cuida-te a ti mesmo tanto quanto cuidas de quem amas." 💙`;
+  }},
+];
+
+// Fallback quando não entende a pergunta
+function fallbackAnswer(p, q) {
+  const recent=p.logs.slice(-5);
+  // Tenta encontrar registros relacionados à pergunta
+  const words = q.split(' ').filter(w=>w.length>3);
+  const related = p.logs.filter(l=> words.some(w=>l.details.toLowerCase().includes(w)||l.category.toLowerCase().includes(w))).slice(-3);
+  
+  let r=`Entendi que você está falando sobre "${q.slice(0,60)}${q.length>60?'...':''}". Não tenho uma resposta específica para essa combinação de palavras, mas posso ajudar:\n\n`;
+  
+  if(related.length>0){
+    r+=`📋 **Encontrei registros relacionados de ${p.name}:**\n`;
+    related.forEach(l=>{ r+=`• ${fmtDate(l.date)}: ${l.details} (${SEVERITY[l.severity]?.label||l.severity})\n`; });
+    r+=`\n`;
+  } else if(recent.length>0){
+    r+=`📋 **Últimos registros de ${p.name}:**\n`;
+    recent.slice(-3).forEach(l=>{ r+=`• ${fmtDate(l.date)}: ${l.details}\n`; });
+    r+=`\n`;
+  }
+  
+  const low=p.medications.filter(m=>daysLeft(m.stock,m.daily)<7);
+  if(low.length>0) r+=`⚠️ **Estoque baixo:** ${low.map(m=>m.name).join(', ')} — providencie a renovação.\n\n`;
+  
+  r+=`**Tente perguntar sobre:**\n`;
+  r+=`• *"Como lidar com alucinações"* • *"Ele está com dificuldade de se mover"*\n`;
+  r+=`• *"Não quer tomar banho"* • *"Está agitado"* • *"Como melhorar o sono"*\n`;
+  r+=`• *"Não quer comer"* • *"Estou esgotada"* • *"Quais remédios são perigosos"*\n\n`;
+  r+=`Ou use a aba **⚡ Ações** para situações do dia a dia com botões rápidos!`;
+  return r;
+}
+
+function smartAnswer(question, patient) {
+  const normalize = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,' ');
+  const q = normalize(question);
+  // try full match first
+  for(const kb of KNOWLEDGE){
+    if(kb.keys.some(k=>q.includes(normalize(k)))){
+      return kb.answer(patient);
+    }
+  }
+  // try word-by-word match for short queries
+  const words = q.split(' ').filter(w=>w.length>=4);
+  for(const kb of KNOWLEDGE){
+    const normKeys = kb.keys.map(normalize);
+    if(words.some(w=>normKeys.some(k=>k.includes(w)||w.includes(k)))){
+      return kb.answer(patient);
+    }
+  }
+  return fallbackAnswer(patient, q);
+}
+
+
+// ─── AÇÕES RÁPIDAS ───
+let openActionTip = null;
+function renderRapidas(p){
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">⚡ Ações Rápidas</div>
+  <div style="background:var(--teal-light);border:1px solid var(--teal);border-radius:12px;padding:13px 16px;margin-bottom:18px;font-size:13px;color:var(--teal-dark);line-height:1.6">
+    Toque num botão para ver dicas e registrar automaticamente no diário. Feito para o momento H — simples e rápido.
+  </div>
+  ${QUICK_ACTIONS.map((g,gi)=>`
+  <div style="margin-bottom:20px">
+    <div style="font-weight:700;font-size:14px;color:${g.color};margin-bottom:10px">${g.group}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      ${g.actions.map((a,ai)=>`
+      <div style="background:${g.bg};border:1px solid ${g.color}33;border-radius:14px;padding:0;overflow:hidden">
+        <button onclick="toggleActionTip(${gi},${ai})"
+          style="width:100%;padding:14px 12px;background:none;border:none;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px">
+          <span style="font-size:26px">${a.icon}</span>
+          <span style="font-size:12px;font-weight:600;color:${g.color};line-height:1.3">${a.label}</span>
+        </button>
+        ${openActionTip===gi+'-'+ai?`
+        <div style="padding:12px 14px;border-top:1px solid ${g.color}33;background:white">
+          <div style="font-size:12px;color:var(--text);line-height:1.7;margin-bottom:10px">${esc(a.tip)}</div>
+          <button onclick="logQuickAction(${gi},${ai})"
+            style="width:100%;padding:9px;background:${g.color};color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">
+            ✅ Registrar no diário
+          </button>
+        </div>`:''}
+      </div>`).join('')}
+    </div>
+  </div>`).join('')}`;
+}
+
+function toggleActionTip(gi,ai){
+  const key=gi+'-'+ai;
+  openActionTip=(openActionTip===key?null:key);
+  switchTab('rapidas');
+}
+
+function logQuickAction(gi,ai){
+  const a=QUICK_ACTIONS[gi].actions[ai];
+  const log={id:'l'+Date.now(),date:today(),caregiver:currentPatient.caregiver,
+    details:a.log,category:a.cat,severity:a.sev};
+  currentPatient.logs.push(log);
+  savePatients();
+  openActionTip=null;
+  switchTab('rapidas');
+  toast('✅ Registrado no diário!');
+}
+
+// ─── RENDER & SEND ───
+function renderAI(p){
+  const quickQs=[
+    'Como lidar com alucinações?','Quais remédios são perigosos?',
+    'O que fazer numa crise de agitação?','Dicas de comunicação',
+    'Como melhorar o sono?','Sugestão de atividade para hoje',
+    'Estou esgotada, preciso de ajuda','Ver remédios e estoque',
+    'Preparar para a consulta médica','O que fazer numa queda?'
+  ];
+  return `
+  <div class="section-title" style="font-family:var(--font-serif)">💬 Guia Inteligente</div>
+  <div style="background:var(--green-light);border:1px solid var(--green);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text);line-height:1.7">
+    ✅ <strong>Funciona sem internet e sem custo.</strong> As respostas são baseadas nos dados reais de <strong>${esc(p.name)}</strong> — remédios, registros, bem-estar — e numa base de conhecimento sobre Síndrome de Lewy. <em>Não substitui o médico.</em>
+  </div>
+  <div id="chat-area" style="background:var(--white);border-radius:14px;border:1px solid var(--border);min-height:300px;max-height:440px;overflow-y:auto;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:10px">
+    ${aiMessages.map(m=>`
+    <div class="chat-wrap ${m.role==='user'?'user':''}">
+      <div class="chat-bubble ${m.role==='user'?'chat-user':'chat-ai'}">${esc(m.content).replace(/\n/g,'<br>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>')}</div>
+    </div>`).join('')}
+    <div id="chat-end"></div>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:12px">
+    <input id="ai-input" placeholder="Pergunte sobre ${esc(p.name)}..." onkeydown="if(event.key==='Enter')sendAI()" style="flex:1"/>
+    <button onclick="sendAI()" id="ai-send-btn" style="background:var(--teal);color:white;border-radius:12px;padding:0 18px;font-size:18px;flex-shrink:0">↑</button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:8px">
+    ${quickQs.map(q=>`<button class="quick-chip" onclick="setAndSend(${JSON.stringify(q)})">${q}</button>`).join('')}
+  </div>`;
+}
+
+function scrollChat(){
+  setTimeout(()=>{
+    const e=el('chat-end');
+    if(e)e.scrollIntoView({behavior:'smooth'});
+  },50);
+}
+
+function setAndSend(q){
+  const inp=el('ai-input');
+  if(inp){inp.value=q;}
+  sendAI();
+}
+
+function sendAI(){
+  const inp=el('ai-input');if(!inp)return;
+  const text=inp.value.trim();if(!text)return;
+  inp.value='';
+  aiMessages.push({role:'user',content:text});
+  renderAIMessages();
+  // Pequeno delay visual para parecer que está "pensando"
+  setTimeout(()=>{
+    const reply = smartAnswer(text, currentPatient);
+    aiMessages.push({role:'assistant',content:reply});
+    renderAIMessages();
+  }, 420);
+}
+
+function renderAIMessages(){
+  const area=el('chat-area');if(!area)return;
+  area.innerHTML=aiMessages.map(m=>`
+  <div class="chat-wrap ${m.role==='user'?'user':''}">
+    <div class="chat-bubble ${m.role==='user'?'chat-user':'chat-ai'}">${esc(m.content).replace(/\n/g,'<br>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>')}</div>
+  </div>`).join('')+'<div id="chat-end"></div>';
+  scrollChat();
+}
+
+// ═══════════════════════ INIT ═══════════════════════
+renderSelectScreen();
+</script>
+
+<script>
+(function(){
+  'use strict';
+
+  // Injetar manifesto via blob
+  const mBlob = new Blob(['{"name": "Cuidado com Amor", "short_name": "Cuidado", "description": "Acompanhamento de sa\\u00fade para idosos com S\\u00edndrome de Lewy", "start_url": "./", "display": "standalone", "orientation": "portrait", "background_color": "#FDF8F0", "theme_color": "#3D8B7A", "lang": "pt-BR", "icons": [{"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABt+uBvAAABi0lEQVR4nO3cwY3DMAxE0TS299S0LaTF9JIEWCCHYBFZEskZGp+YM+V5R9nw5ef2S77kIn8C8wAEEEAAAWQcgAACCCCAjAMQQAAZAT3OMgANBqDBADQYgAbTGOh+vRacAtBgugK9dP6SfVBLoLdOgVEzoA+aAqZOQF908ox6AA1p8pgaAE3phBtZAy3QhDP5Am3qRBmZAoXohBjZAQXShDB5ASXp7BgZAaXqLBu5ABXorBlZAJXpLBjpgYp1Zo3EQBKdKSMlkFDnuJEMSK5z0EgDJHc5biQAkotMGVUDyS1mjQByApIrLBjVAcn7rxkB5AEkb75sBJABkLzzjlE6kLztphFAADkDyXvuGwGkA5I3DDECCCBPIHm3qAAEEEAAAWScFCB5K4kRQAABBBBA5wA6k9HxygABBBBAfYC4UQRoG6i7Ee/FDID6Gp3h85fUzQCpgT4S3qFg82x2f/KW18FBJwAopIxkcynQchOH5UVAs2WsNpcC/duq4/IioO4BCCCAAALIOAABtJcnCxP4+o505EsAAAAASUVORK5CYII=", "sizes": "96x96", "type": "image/png", "purpose": "any maskable"}, {"src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADpElEQVR4nO3c23EUQRBEURzjXzbhAi7iC48QAULotZszU1XdJ+Ma0DF1fnc/ff76Rbq7T+Uv0OgAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUWcB+m79BpBFA8iiAWTRALJoAFk0gCwaQBYNIIsGkEUDyKIBVLBvDw/VTzhsABUMIIDu3089j1U/5JgBdOn+6FnGEEDX7ZmeNQwBdNFe1LOAIYCu2Bt6phsC6Ny9S2c6I4BO3E16hhoC6KzdoWeiIYCO3910JjIC6OAdomeQIYAO24F0BjEC6JidpKe/IYDSnUqnPyOAol2mp60hgO7cxXTaMgLonhXq6WYIoJtXrqeVIYBuWDmahowA+ujKrfQ0BNCHVq6krSGA3lk5juaMAHpr5Sb6GwLo1ZVrGGEIoJdX7mCKIYCer/z8sxgB9M/Krz7OEEB/V37viYYA+r3ySw81BNCvld94riGA1tdzqqHdAZXfdbqhrQGVX3QBQ/sCKr/lGoY2BVR+xWUM7Qio/H4dOupjbgeo/HJ9OuR77gWo/GbdAoieYkMA7R5A9FQa2gJQ+YX6BxA9NYYWB1R+lVkBBBBAxwEqv8fEAKLnUkMACSB66gwtCKj8668RQALodkDl332ltgNU/sXXCyAB9DFA5d961QASQO8BKv/Ka7c4oPLvu0MACSB6+hkCSBsDKv+muwWQAAIIoEMAlX/NPQNIANHTxhBAAkgA3QSo/AsKIAEkgO4AVP7t9BhAigJIUSMBlX81PQ0gRQGkKIAUNQxQ+ffS/wGkKIAUBZCiAFIUQIoCSFFjAJV/Kb0WQIoCSFEAKQogRQGkKIAUBZCiAFIUQIoCSFEAKWoGIIZ6dsahAdoogBQFkKIAUhRAipoEyC9TuzXsl6kAdQsgRQGkqHmAGOrTyH8oA6hPUwEx1KHBf/MLUIcA0saAGGqiByDtCoihDnpmA2KoXA9A2hsQQ7V6VgA00dDQNwPUpaFvXhbQrHuMfvOygKbcY4E3Dwb0buXf+u2WefPZlQHqfI/F3rwsoJ73WPLNywLqdpJVH7w4oA4n2eTNywIqPMmGb14W0MX38OwFAV1zEm8+qr6AzjiJZx9ed0D5VTz71CYBevs85S/Z5+VPGw9ItQGkKIAUBZCiAFIUQIoCSFEAKQogRQGkKIAUBZCiAFIUQIoCSFEAKQogRf0AuRQxLzFIqLkAAAAASUVORK5CYII=", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"}, {"src": "data:image/png;base64,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", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}]}'], {type:'application/manifest+json'});
+  document.getElementById('pwa-manifest').href = URL.createObjectURL(mBlob);
+
+  // Registrar Service Worker via blob inline
+  const swSrc = "// ═══════════════════════════════════════════════════\n// SERVICE WORKER — Cuidado com Amor PWA\n// Versão: 1.0.0\n// Responsável por: cache offline, notificações push\n// ═══════════════════════════════════════════════════\n\nconst CACHE_NAME = 'cuidado-com-amor-v1';\nconst CACHE_URLS = [\n  './',\n  './index.html',\n  'https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap',\n];\n\n// ── INSTALL: cacheia os arquivos essenciais ──\nself.addEventListener('install', event => {\n  event.waitUntil(\n    caches.open(CACHE_NAME).then(cache => {\n      return cache.addAll(CACHE_URLS).catch(() => {\n        // Falha silenciosa se algum recurso externo não carregar\n      });\n    })\n  );\n  self.skipWaiting();\n});\n\n// ── ACTIVATE: limpa caches antigos ──\nself.addEventListener('activate', event => {\n  event.waitUntil(\n    caches.keys().then(keys =>\n      Promise.all(\n        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))\n      )\n    )\n  );\n  self.clients.claim();\n});\n\n// ── FETCH: serve do cache quando offline ──\nself.addEventListener('fetch', event => {\n  // Ignora requisições não-GET e de extensões do browser\n  if (event.request.method !== 'GET') return;\n  if (event.request.url.startsWith('chrome-extension')) return;\n\n  event.respondWith(\n    caches.match(event.request).then(cached => {\n      if (cached) return cached;\n\n      return fetch(event.request)\n        .then(response => {\n          // Só cacheia respostas válidas do mesmo domínio\n          if (\n            response &&\n            response.status === 200 &&\n            response.type === 'basic'\n          ) {\n            const clone = response.clone();\n            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));\n          }\n          return response;\n        })\n        .catch(() => {\n          // Offline: retorna o index.html para navegação SPA\n          if (event.request.destination === 'document') {\n            return caches.match('./index.html');\n          }\n        });\n    })\n  );\n});\n\n// ── PUSH NOTIFICATIONS ──\nself.addEventListener('push', event => {\n  const data = event.data ? event.data.json() : {};\n  const title = data.title || '❤️ Cuidado com Amor';\n  const options = {\n    body: data.body || 'Nova atualização',\n    icon: data.icon || './icon-192.png',\n    badge: './icon-96.png',\n    vibrate: [200, 100, 200],\n    data: { url: data.url || './' },\n    actions: data.actions || [],\n    requireInteraction: data.requireInteraction || false,\n    silent: data.silent || false,\n  };\n  event.waitUntil(self.registration.showNotification(title, options));\n});\n\n// ── CLIQUE NA NOTIFICAÇÃO ──\nself.addEventListener('notificationclick', event => {\n  event.notification.close();\n  const url = event.notification.data?.url || './';\n  event.waitUntil(\n    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {\n      for (const client of clientList) {\n        if (client.url.includes(self.location.origin) && 'focus' in client) {\n          return client.focus();\n        }\n      }\n      if (clients.openWindow) return clients.openWindow(url);\n    })\n  );\n});\n\n// ── BACKGROUND SYNC (para ações feitas offline) ──\nself.addEventListener('sync', event => {\n  if (event.tag === 'sync-logs') {\n    // Quando voltar a internet, dispara evento para a página sincronizar\n    event.waitUntil(\n      self.clients.matchAll().then(clients => {\n        clients.forEach(client => client.postMessage({ type: 'SYNC_READY' }));\n      })\n    );\n  }\n});\n";
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async ()=>{
+      try {
+        // Tenta arquivo externo primeiro (GitHub Pages, servidor)
+        const reg = await navigator.serviceWorker.register('./sw.js', {scope:'./'});
+        console.log('[PWA] SW registrado via arquivo');
+        navigator.serviceWorker.addEventListener('message', e=>{
+          if(e.data?.type==='SYNC_READY') toast('🔄 Sincronizado!');
+        });
+      } catch(e) {
+        // Fallback: blob inline (para abrir direto do celular via file://)
+        try {
+          const blob = new Blob([swSrc], {type:'application/javascript'});
+          const url  = URL.createObjectURL(blob);
+          const reg2 = await navigator.serviceWorker.register(url, {scope:'./'});
+          console.log('[PWA] SW registrado via blob');
+        } catch(e2) {
+          console.info('[PWA] SW indisponível neste contexto — app funciona normalmente sem ele.');
+        }
+      }
+    });
+  }
+
+  // Banner de instalação
+  let prompt = null;
+  window.addEventListener('beforeinstallprompt', e=>{
+    e.preventDefault(); prompt = e;
+    if(!localStorage.getItem('pwa_ok')) {
+      setTimeout(()=>{ document.getElementById('pwa-banner').style.display='flex'; }, 4000);
+    }
+  });
+  window.installPWA = async function(){
+    const banner = document.getElementById('pwa-banner');
+    if(!prompt){
+      alert('Para instalar no iPhone (Safari):\n\n1. Toque em Compartilhar ⬆️\n2. Role e toque "Adicionar à Tela de Início"\n3. Confirme com "Adicionar"\n\nO ícone ❤️ aparecerá na tela inicial!');
+      banner.style.display='none'; return;
+    }
+    prompt.prompt();
+    const r = await prompt.userChoice;
+    prompt=null; banner.style.display='none';
+    if(r.outcome==='accepted') toast('✅ App instalado! Procure o ícone ❤️ na tela.');
+  };
+  window.dismissBanner=function(){
+    document.getElementById('pwa-banner').style.display='none';
+    localStorage.setItem('pwa_ok','1');
+  };
+  window.addEventListener('appinstalled',()=>toast('❤️ App instalado com sucesso!'));
+
+  // Monitor de conexão
+  function updateNet(){
+    const bar=document.getElementById('offline-bar');
+    if(!navigator.onLine){ bar.style.display='block'; document.body.style.marginTop='34px'; }
+    else { bar.style.display='none'; document.body.style.marginTop=''; }
+  }
+  window.addEventListener('online', updateNet);
+  window.addEventListener('offline', updateNet);
+  window.addEventListener('load', updateNet);
+
+  // Notificações push locais
+  window.requestNotifPermission = async function(){
+    if(!('Notification' in window)){ toast('Notificações não suportadas.'); return; }
+    const r = await Notification.requestPermission();
+    if(r==='granted'){ toast('✅ Notificações ativadas!'); scheduleAllNotifs(); }
+    else toast('Bloqueado. Ative nas configurações do celular.');
+  };
+
+  window.scheduleAllNotifs = function(){
+    if(Notification.permission!=='granted') return;
+    const patients = JSON.parse(localStorage.getItem('cca_patients')||'[]');
+    let count=0;
+    patients.forEach(p=>{
+      p.medications.forEach(med=>{
+        med.times.forEach(time=>{
+          const [hh,mm]=time.split(':').map(Number);
+          const now=new Date(), t=new Date();
+          t.setHours(hh,mm,0,0);
+          if(t<=now) t.setDate(t.getDate()+1);
+          const delay=t-now;
+          if(delay<86400000){
+            setTimeout(()=>{
+              new Notification('💊 Hora do remédio — '+p.name,{
+                body: med.name+' '+med.dose+' — '+time,
+                icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADpElEQVR4nO3c23EUQRBEURzjXzbhAi7iC48QAULotZszU1XdJ+Ma0DF1fnc/ff76Rbq7T+Uv0OgAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUQApCiBFAaQogBQFkKIAUhRAigJIUWcB+m79BpBFA8iiAWTRALJoAFk0gCwaQBYNIIsGkEUDyKIBVLBvDw/VTzhsABUMIIDu3089j1U/5JgBdOn+6FnGEEDX7ZmeNQwBdNFe1LOAIYCu2Bt6phsC6Ny9S2c6I4BO3E16hhoC6KzdoWeiIYCO3910JjIC6OAdomeQIYAO24F0BjEC6JidpKe/IYDSnUqnPyOAol2mp60hgO7cxXTaMgLonhXq6WYIoJtXrqeVIYBuWDmahowA+ujKrfQ0BNCHVq6krSGA3lk5juaMAHpr5Sb6GwLo1ZVrGGEIoJdX7mCKIYCer/z8sxgB9M/Krz7OEEB/V37viYYA+r3ySw81BNCvld94riGA1tdzqqHdAZXfdbqhrQGVX3QBQ/sCKr/lGoY2BVR+xWUM7Qio/H4dOupjbgeo/HJ9OuR77gWo/GbdAoieYkMA7R5A9FQa2gJQ+YX6BxA9NYYWB1R+lVkBBBBAxwEqv8fEAKLnUkMACSB66gwtCKj8668RQALodkDl332ltgNU/sXXCyAB9DFA5d961QASQO8BKv/Ka7c4oPLvu0MACSB6+hkCSBsDKv+muwWQAAIIoEMAlX/NPQNIANHTxhBAAkgA3QSo/AsKIAEkgO4AVP7t9BhAigJIUSMBlX81PQ0gRQGkKIAUNQxQ+ffS/wGkKIAUBZCiAFIUQIoCSFFjAJV/Kb0WQIoCSFEAKQogRQGkKIAUBZCiAFIUQIoCSFEAKWoGIIZ6dsahAdoogBQFkKIAUhRAipoEyC9TuzXsl6kAdQsgRQGkqHmAGOrTyH8oA6hPUwEx1KHBf/MLUIcA0saAGGqiByDtCoihDnpmA2KoXA9A2hsQQ7V6VgA00dDQNwPUpaFvXhbQrHuMfvOygKbcY4E3Dwb0buXf+u2WefPZlQHqfI/F3rwsoJ73WPLNywLqdpJVH7w4oA4n2eTNywIqPMmGb14W0MX38OwFAV1zEm8+qr6AzjiJZx9ed0D5VTz71CYBevs85S/Z5+VPGw9ItQGkKIAUBZCiAFIUQIoCSFEAKQogRQGkKIAUBZCiAFIUQIoCSFEAKQogRf0AuRQxLzFIqLkAAAAASUVORK5CYII=',
+                badge:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABt+uBvAAABi0lEQVR4nO3cwY3DMAxE0TS299S0LaTF9JIEWCCHYBFZEskZGp+YM+V5R9nw5ef2S77kIn8C8wAEEEAAAWQcgAACCCCAjAMQQAAZAT3OMgANBqDBADQYgAbTGOh+vRacAtBgugK9dP6SfVBLoLdOgVEzoA+aAqZOQF908ox6AA1p8pgaAE3phBtZAy3QhDP5Am3qRBmZAoXohBjZAQXShDB5ASXp7BgZAaXqLBu5ABXorBlZAJXpLBjpgYp1Zo3EQBKdKSMlkFDnuJEMSK5z0EgDJHc5biQAkotMGVUDyS1mjQByApIrLBjVAcn7rxkB5AEkb75sBJABkLzzjlE6kLztphFAADkDyXvuGwGkA5I3DDECCCBPIHm3qAAEEEAAAWScFCB5K4kRQAABBBBA5wA6k9HxygABBBBAfYC4UQRoG6i7Ee/FDID6Gp3h85fUzQCpgT4S3qFg82x2f/KW18FBJwAopIxkcynQchOH5UVAs2WsNpcC/duq4/IioO4BCCCAAALIOAABtJcnCxP4+o505EsAAAAASUVORK5CYII=',
+                vibrate:[300,100,300],
+                requireInteraction:true,
+                tag:'med-'+p.id+'-'+med.id+'-'+time
+              });
+            }, delay);
+            count++;
+          }
+        });
+      });
+    });
+    if(count>0) toast('🔔 '+count+' alertas de remédio agendados!');
+  };
+
+  window.addEventListener('load',()=>{
+    if(Notification.permission==='granted') scheduleAllNotifs();
+  });
+})();
+</script>
+</body>
+</html>
