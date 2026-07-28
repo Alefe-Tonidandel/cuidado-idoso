@@ -208,7 +208,7 @@ window.renderLogin=function(){
   <div class="fl"><label>E-mail</label><input id="ae" type="email" placeholder="seu@email.com" autocomplete="email"/></div>
   <div class="fl"><label>Senha</label><input id="ap" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
   <button class="btn btn-p" id="ab" onclick="doLogin()">Entrar</button>
-  <button class="btn btn-g" onclick="renderReg()">Criar conta</button>
+  <button class="btn btn-g" onclick="if(window._app)window._app.renderReg()">Criar conta</button>
   <div style="text-align:center;margin-top:4px"><span style="font-size:13px;color:var(--teal);cursor:pointer" onclick="doForgot()">Esqueci minha senha</span></div>`;
 }
 window.renderReg=function(){
@@ -217,8 +217,11 @@ window.renderReg=function(){
   <div class="fl"><label>E-mail</label><input id="ae" type="email" placeholder="seu@email.com" autocomplete="email"/></div>
   <div class="fl"><label>Senha (mín. 6 caracteres)</label><input id="ap" type="password" placeholder="••••••••" autocomplete="new-password"/></div>
   <button class="btn btn-p" id="ab" onclick="doReg()">Criar conta</button>
-  <button class="btn btn-g" onclick="renderLogin()">Já tenho conta</button>`;
+  <button class="btn btn-g" onclick="if(window._app)window._app.renderLogin()">Já tenho conta</button>`;
 }
+window._renderReg   = window.renderReg;
+window._renderLogin = window.renderLogin;
+window._doForgot    = window.doForgot;
 window.doLogin=async()=>{
   const e=el('ae')?.value?.trim(),p=el('ap')?.value;
   if(!e||!p){toast('Preencha e-mail e senha.');return}
@@ -947,6 +950,7 @@ const upN=()=>{if(!navigator.onLine){ob.style.display='block';document.body.styl
 window.addEventListener('online',upN);window.addEventListener('offline',upN);upN();
 
 // ══ INIT ══
+window._app = { renderReg, renderLogin, doForgot };
 renderLogin();
 </script>
 </body>
