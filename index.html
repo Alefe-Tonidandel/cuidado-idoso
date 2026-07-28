@@ -33,7 +33,7 @@ textarea{resize:vertical}
 .screen{display:none;flex-direction:column;min-height:100vh;max-width:520px;margin:0 auto}
 .screen.on{display:flex}
 .auth-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px}
-.auth-form{width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px}
+.auth-form{width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px;margin-bottom:0}
 .btn{border-radius:12px;padding:13px;font-size:15px;font-weight:600;width:100%;cursor:pointer;border:none;font-family:var(--sans)}
 .btn-p{background:var(--teal);color:white}.btn-p:hover{background:var(--teal-d)}.btn-p:disabled{opacity:.5}
 .btn-g{background:transparent;color:var(--teal);border:1.5px solid var(--teal)}
@@ -203,7 +203,7 @@ let TI=0;
 function rotTip(){const t=el('tip-t');if(t)t.textContent=TIPS[TI++%TIPS.length]}
 
 // ══ AUTH ══
-function renderLogin(){
+window.renderLogin=function(){
   el('af').innerHTML=`
   <div class="fl"><label>E-mail</label><input id="ae" type="email" placeholder="seu@email.com" autocomplete="email"/></div>
   <div class="fl"><label>Senha</label><input id="ap" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
@@ -211,7 +211,7 @@ function renderLogin(){
   <button class="btn btn-g" onclick="renderReg()">Criar conta</button>
   <div style="text-align:center;margin-top:4px"><span style="font-size:13px;color:var(--teal);cursor:pointer" onclick="doForgot()">Esqueci minha senha</span></div>`;
 }
-function renderReg(){
+window.renderReg=function(){
   el('af').innerHTML=`
   <div class="fl"><label>Seu nome</label><input id="an" type="text" placeholder="Maria Silva" autocomplete="name"/></div>
   <div class="fl"><label>E-mail</label><input id="ae" type="email" placeholder="seu@email.com" autocomplete="email"/></div>
