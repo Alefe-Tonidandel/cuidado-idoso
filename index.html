@@ -170,15 +170,15 @@ textarea{resize:vertical}
   <div class="mod" id="mb"></div>
 </div>
 
-<script type="module">
-import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile,sendPasswordResetEmail}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import{getFirestore,collection,doc,setDoc,getDoc,getDocs,addDoc,updateDoc,deleteDoc,onSnapshot,query,where,orderBy,serverTimestamp,arrayUnion,arrayRemove}from'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
 
 const FB={apiKey:"AIzaSyCfH7j_xBn5JSWOW7HUCBPNlRRK3hhjYf4",authDomain:"cuidado-idoso.firebaseapp.com",projectId:"cuidado-idoso",storageBucket:"cuidado-idoso.firebasestorage.app",messagingSenderId:"762117184152",appId:"1:762117184152:web:180a4b55315bff8c690eed"};
-const app=initializeApp(FB);
-const auth=getAuth(app);
-const db=getFirestore(app);
+const app=firebase.initializeApp(FB);
+const auth=firebase.auth();
+const db=firebase.firestore();
 
 // ── HELPERS ──
 const el=id=>document.getElementById(id);
@@ -226,7 +226,7 @@ window.doLogin=async()=>{
   const e=el('ae')?.value?.trim(),p=el('ap')?.value;
   if(!e||!p){toast('Preencha e-mail e senha.');return}
   const b=el('ab');b.disabled=true;b.textContent='Entrando...';
-  try{await signInWithEmailAndPassword(auth,e,p)}
+  try{await auth.signInWithEmailAndPassword(e,p)}
   catch(err){toast(err.code==='auth/invalid-credential'?'E-mail ou senha incorretos.':'Erro: '+err.message);b.disabled=false;b.textContent='Entrar'}
 };
 window.doReg=async()=>{
@@ -235,20 +235,20 @@ window.doReg=async()=>{
   if(p.length<6){toast('Senha: mínimo 6 caracteres.');return}
   const b=el('ab');b.disabled=true;b.textContent='Criando...';
   try{
-    const c=await createUserWithEmailAndPassword(auth,e,p);
-    await updateProfile(c.user,{displayName:n});
-    await setDoc(doc(db,'users',c.user.uid),{name:n,email:e,createdAt:serverTimestamp()});
+    const c=await auth.createUserWithEmailAndPassword(e,p);
+    await c.user.updateProfile({displayName:n});
+    await db.collection('users').doc(c.user.uid).set({name:n,email:e,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
   }catch(err){toast(err.code==='auth/email-already-in-use'?'E-mail já cadastrado.':'Erro: '+err.message);b.disabled=false;b.textContent='Criar conta'}
 };
 window.doForgot=async()=>{
   const e=el('ae')?.value?.trim();
   if(!e){toast('Digite seu e-mail primeiro.');return}
-  try{await sendPasswordResetEmail(auth,e);toast('✅ E-mail de recuperação enviado!')}
+  try{await auth.sendPasswordResetEmail(e);toast('✅ E-mail de recuperação enviado!')}
   catch(err){toast('Erro: '+err.message)}
 };
-window.doLogout=async()=>{UNS.forEach(u=>u());UNS=[];await signOut(auth)};
+window.doLogout=async()=>{UNS.forEach(u=>u());UNS=[];await auth.signOut()};
 
-onAuthStateChanged(auth,u=>{
+auth.onAuthStateChanged(u=>{
   CU=u;
   if(u){show('s-sel');loadSel()}
   else{show('s-auth');renderLogin()}
@@ -262,8 +262,8 @@ function loadSel(){
 }
 async function loadPats(){
   const L=el('pat-list');L.innerHTML='<div class="spin"></div>';
-  const q=query(collection(db,'patients'),where('members','array-contains',CU.uid));
-  const sn=await getDocs(q);
+  const q=db.collection('patients').where('members','array-contains',CU.uid);
+  const sn=await q.get();
   if(sn.empty){L.innerHTML='<div class="emp"><div class="emp-i">👴</div><p>Nenhum paciente ainda.<br>Adicione o primeiro ou use um código de convite.</p></div>';return}
   L.innerHTML='';
   sn.forEach(d=>{
@@ -298,10 +298,10 @@ window.doAddPat=async()=>{
   const name=el('pn')?.value?.trim(),age=parseInt(el('pa')?.value||0);
   if(!name||!age){toast('Nome e idade são obrigatórios.');return}
   const code=Math.random().toString(36).slice(2,8).toUpperCase();
-  const ref=await addDoc(collection(db,'patients'),{
+  const ref=await db.collection('patients').add({
     name,age,condition:el('pc')?.value?.trim()||'',blood:el('pb')?.value?.trim()||'',allergy:el('pal')?.value?.trim()||'',
     avatar:'👴',inviteCode:code,members:[CU.uid],memberNames:{[CU.uid]:CU.displayName||CU.email},
-    medications:[],routine:[],logs:[],createdBy:CU.uid,createdAt:serverTimestamp()
+    medications:[],routine:[],logs:[],createdBy:CU.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()
   });
   closeMod();toast(`✅ Paciente criado! Código: ${code}`);
   await openPat(ref.id);
@@ -317,25 +317,25 @@ window.showJoinPat=()=>openMod(`
 window.doJoin=async()=>{
   const code=el('jc')?.value?.trim().toUpperCase();
   if(!code){toast('Digite o código.');return}
-  const q=query(collection(db,'patients'),where('inviteCode','==',code));
-  const sn=await getDocs(q);
+  const q=db.collection('patients').where('inviteCode','==',code);
+  const sn=await q.get();
   if(sn.empty){toast('Código não encontrado.');return}
   const d=sn.docs[0];
   if((d.data().members||[]).includes(CU.uid)){toast('Você já é cuidador deste paciente.');closeMod();return}
-  await updateDoc(doc(db,'patients',d.id),{members:arrayUnion(CU.uid),[`memberNames.${CU.uid}`]:CU.displayName||CU.email});
+  await db.collection('patients').doc(d.id).update({members:firebase.firestore.FieldValue.arrayUnion(CU.uid),[`memberNames.${CU.uid}`]:CU.displayName||CU.email});
   closeMod();toast(`✅ Você agora é cuidador de ${d.data().name}!`);loadPats();
 };
 
 // ══ OPEN PATIENT ══
 async function openPat(id){
-  const sn=await getDoc(doc(db,'patients',id));
-  if(!sn.exists()){toast('Paciente não encontrado.');return}
+  const sn=await db.collection('patients').doc(id).get();
+  if(!sn.exists){toast('Paciente não encontrado.');return}
   CP={id,d:sn.data()};
   el('h-n').textContent='❤️ '+CP.d.name;
   el('h-s').textContent=`${CP.d.age} anos · ${CP.d.condition||''}`;
   show('s-app');
   UNS.forEach(u=>u());UNS=[];
-  UNS.push(onSnapshot(doc(db,'patients',id),sn=>{if(sn.exists()){CP.d=sn.data();if(AT)rTab(AT)}}));
+  UNS.push(db.collection('patients').doc(id).onSnapshot(sn=>{if(sn.exists){CP.d=sn.data();if(AT)rTab(AT)}}));
   gT('home');
 }
 window.goSel=()=>{UNS.forEach(u=>u());UNS=[];CP=null;el('sos-b').style.display='none';show('s-sel');loadPats()};
@@ -474,19 +474,19 @@ window.takeMed=async(mid,t)=>{
   const meds=CP.d.medications||[];
   const med=meds.find(m=>m.id===mid);if(!med)return;
   const nm=meds.map(m=>m.id===mid?{...m,stock:Math.max(0,m.stock-1)}:m);
-  await updateDoc(doc(db,'patients',CP.id),{[k]:{by:CU.displayName||CU.email,at:nowT(),uid:CU.uid},medications:nm});
+  await db.collection('patients').doc(CP.id).update({[k]:{by:CU.displayName||CU.email,at:nowT(),uid:CU.uid},medications:nm});
   await logEnt({details:`${med.name} ${med.dose} administrado.`,category:'💊 Medicação',severity:'LEVE'});
   toast(`✅ ${med.name} registrado para todos!`);
 };
 window.addStk=async(mid)=>{
   const n=parseInt(prompt('Quantas doses adicionar?','30'));if(isNaN(n)||n<=0)return;
   const nm=(CP.d.medications||[]).map(m=>m.id===mid?{...m,stock:m.stock+n}:m);
-  await updateDoc(doc(db,'patients',CP.id),{medications:nm});toast(`✅ +${n} doses!`);
+  await db.collection('patients').doc(CP.id).update({medications:nm});toast(`✅ +${n} doses!`);
 };
 window.delM=async(mid)=>{
   if(!confirm('Remover este medicamento?'))return;
   const nm=(CP.d.medications||[]).filter(m=>m.id!==mid);
-  await updateDoc(doc(db,'patients',CP.id),{medications:nm});toast('Removido.');
+  await db.collection('patients').doc(CP.id).update({medications:nm});toast('Removido.');
 };
 window.showAddM=()=>openMod(`
   <div class="mtit">💊 Novo remédio</div>
@@ -507,7 +507,7 @@ window.doAddM=async()=>{
   const med={id:'m'+Date.now(),name,dose,stock:parseInt(el('ms')?.value||'30'),daily:parseInt(el('mdy')?.value||'1'),
     times:(el('mt')?.value||'08:00').split(',').map(t=>t.trim()).filter(Boolean),notes:el('mo')?.value?.trim()||'',
     color:clrs[Math.floor(Math.random()*clrs.length)]};
-  await updateDoc(doc(db,'patients',CP.id),{medications:[...(CP.d.medications||[]),med]});
+  await db.collection('patients').doc(CP.id).update({medications:[...(CP.d.medications||[]),med]});
   closeMod();toast('✅ Remédio adicionado!');
 };
 window.editM=mid=>{
@@ -530,7 +530,7 @@ window.doEditM=async(mid)=>{
     stock:parseInt(el('es')?.value||'0'),daily:parseInt(el('edy')?.value||'1'),
     times:(el('et')?.value||'').split(',').map(t=>t.trim()).filter(Boolean),
     notes:el('eo')?.value?.trim()||''}:m);
-  await updateDoc(doc(db,'patients',CP.id),{medications:nm});closeMod();toast('✅ Atualizado!');
+  await db.collection('patients').doc(CP.id).update({medications:nm});closeMod();toast('✅ Atualizado!');
 };
 
 // ══ AGENDA ══
@@ -566,8 +566,8 @@ function rAgenda(){
 }
 window.togR=async(id)=>{
   const td=today(),path=`routineDone.${td}.${id}`,cur=(CP.d.routineDone||{})[td]||{};
-  if(cur[id]&&cur[id]!==false){await updateDoc(doc(db,'patients',CP.id),{[path]:false});toast('↩️ Desmarcado');}
-  else{await updateDoc(doc(db,'patients',CP.id),{[path]:{by:CU.displayName||CU.email,at:nowT()}});toast('✅ Marcado para todos!')}
+  if(cur[id]&&cur[id]!==false){await db.collection('patients').doc(CP.id).update({[path]:false});toast('↩️ Desmarcado');}
+  else{await db.collection('patients').doc(CP.id).update({[path]:{by:CU.displayName||CU.email,at:nowT()}});toast('✅ Marcado para todos!')}
 };
 window.showEditR=()=>{
   const rt=getR();
@@ -600,7 +600,7 @@ window.saveR=async()=>{
     if(label)rt.push({id:'r'+Date.now()+i,icon,time,label});
   }
   if(!rt.length){toast('Adicione pelo menos um item.');return}
-  await updateDoc(doc(db,'patients',CP.id),{routine:rt});closeMod();toast('✅ Rotina salva para todos!');
+  await db.collection('patients').doc(CP.id).update({routine:rt});closeMod();toast('✅ Rotina salva para todos!');
 };
 
 // ══ QUICK ACTIONS ══
@@ -682,7 +682,7 @@ function rDiary(){
 }
 async function logEnt({details,category,severity}){
   const entry={id:'l'+Date.now(),date:today(),caregiver:CU.displayName||CU.email,details,category:category||'📋 Geral',severity:severity||'LEVE'};
-  await updateDoc(doc(db,'patients',CP.id),{logs:[...(CP.d.logs||[]),entry]});
+  await db.collection('patients').doc(CP.id).update({logs:[...(CP.d.logs||[]),entry]});
 }
 window.doLog=async()=>{
   const txt=el('lt')?.value?.trim();if(!txt){toast('Descreva o que aconteceu.');return}
@@ -717,7 +717,7 @@ window.sSP=n=>{SP=n;rTab('wb')};
 window.saveWB=async()=>{
   if(!SM){toast('Selecione o humor.');return}
   const e={date:today(),time:nowT(),mood:SM,pain:SP,notes:el('wn')?.value||'',by:CU.displayName||CU.email};
-  await updateDoc(doc(db,'patients',CP.id),{wellbeing:[...(CP.d.wellbeing||[]),e]});
+  await db.collection('patients').doc(CP.id).update({wellbeing:[...(CP.d.wellbeing||[]),e]});
   SM=null;SP=null;toast('✅ Bem-estar registrado!');
 };
 
@@ -732,8 +732,8 @@ async function rChat(wrap){
     <input id="ci" placeholder="Mensagem..." onkeydown="if(event.key==='Enter')sChat()" style="flex:1"/>
     <button onclick="sChat()" style="background:var(--teal);color:white;border:none;border-radius:10px;padding:0 17px;font-size:18px;cursor:pointer;flex-shrink:0">↑</button>
   </div>`;
-  const q=query(collection(db,'patients',CP.id,'chat'),orderBy('createdAt','asc'));
-  const u=onSnapshot(q,sn=>{
+  const q=db.collection('patients').doc(CP.id).collection('chat').orderBy('createdAt','asc');
+  const u=q.onSnapshot(sn=>{
     const b=el('cm');if(!b){u();return}
     if(sn.empty){b.innerHTML='<div class="emp"><div class="emp-i">💬</div><p>Nenhuma mensagem ainda.<br>Seja o primeiro!</p></div>';return}
     b.innerHTML='';
@@ -751,7 +751,7 @@ async function rChat(wrap){
 }
 window.sChat=async()=>{
   const i=el('ci');if(!i)return;const t=i.value.trim();if(!t)return;i.value='';
-  await addDoc(collection(db,'patients',CP.id,'chat'),{text:t,uid:CU.uid,name:CU.displayName||CU.email,createdAt:serverTimestamp()});
+  await db.collection('patients').doc(CP.id).collection('chat').add({text:t,uid:CU.uid,name:CU.displayName||CU.email,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
 };
 
 // ══ MEMORIES ══
@@ -788,7 +788,7 @@ window.doAddMem=async()=>{
   const emoji=el('me')?.value||'❤️',title=el('mt2')?.value?.trim(),caption=el('mc')?.value?.trim();
   if(!title||!caption){toast('Preencha título e história.');return}
   const mem={id:'m'+Date.now(),emoji,title,caption,by:CU.displayName||CU.email,date:today()};
-  await updateDoc(doc(db,'patients',CP.id),{memories:[...(CP.d.memories||[]),mem]});
+  await db.collection('patients').doc(CP.id).update({memories:[...(CP.d.memories||[]),mem]});
   closeMod();toast('✅ Memória adicionada!');
 };
 
@@ -887,7 +887,7 @@ window.copyCode=()=>{const c=CP.d.inviteCode;navigator.clipboard?.writeText(c).t
 window.remMb=async uid=>{
   if(!confirm('Remover este cuidador?'))return;
   const nm={...CP.d.memberNames};delete nm[uid];
-  await updateDoc(doc(db,'patients',CP.id),{members:arrayRemove(uid),memberNames:nm});toast('Cuidador removido.');
+  await db.collection('patients').doc(CP.id).update({members:firebase.firestore.FieldValue.arrayRemove(uid),memberNames:nm});toast('Cuidador removido.');
 };
 window.showEditP=()=>{
   const p=CP.d;
@@ -903,7 +903,7 @@ window.showEditP=()=>{
   </div>`);
 };
 window.doEditP=async()=>{
-  await updateDoc(doc(db,'patients',CP.id),{name:el('epn')?.value?.trim()||CP.d.name,age:parseInt(el('epa')?.value||CP.d.age),condition:el('epc')?.value?.trim()||'',blood:el('epb')?.value?.trim()||'',allergy:el('epal')?.value?.trim()||''});
+  await db.collection('patients').doc(CP.id).update({name:el('epn')?.value?.trim()||CP.d.name,age:parseInt(el('epa')?.value||CP.d.age),condition:el('epc')?.value?.trim()||'',blood:el('epb')?.value?.trim()||'',allergy:el('epal')?.value?.trim()||''});
   closeMod();toast('✅ Perfil atualizado!');
 };
 
