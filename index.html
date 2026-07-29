@@ -81,6 +81,7 @@ textarea{resize:vertical}
 .bw{display:flex;flex-direction:column;margin-bottom:10px}
 .bw.me{align-items:flex-end}
 .bmt{font-size:10px;color:var(--muted);margin-top:3px;padding:0 4px}
+.chat-badge{background:var(--red);color:white;border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:3px;vertical-align:middle}
 .mb{background:var(--warm);border-radius:8px;height:8px;margin:8px 0;overflow:hidden}
 .mf{height:100%;border-radius:8px;transition:width .4s}
 .mc{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--teal);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:16px;background:white;transition:all .15s}
@@ -156,7 +157,7 @@ textarea{resize:vertical}
     <button class="tab"    onclick="gT('quick')"  id="t-quick"> <span class="ti">⚡</span>Ações</button>
     <button class="tab"    onclick="gT('diary')"  id="t-diary"> <span class="ti">📝</span>Diário</button>
     <button class="tab"    onclick="gT('wb')"     id="t-wb">    <span class="ti">😊</span>Bem-estar</button>
-    <button class="tab"    onclick="gT('chat')"   id="t-chat">  <span class="ti">💬</span>Chat</button>
+    <button class="tab"    onclick="gT('chat')"   id="t-chat">  <span class="ti">💬</span>Chat<span id="chat-badge" style="display:none" class="chat-badge">!</span></button>
     <button class="tab"    onclick="gT('mem')"    id="t-mem">   <span class="ti">📸</span>Memórias</button>
     <button class="tab"    onclick="gT('music')"  id="t-music"> <span class="ti">🎵</span>Músicas</button>
     <button class="tab"    onclick="gT('rep')"    id="t-rep">   <span class="ti">📊</span>Relatório</button>
@@ -335,8 +336,18 @@ async function openPat(id){
   el('h-s').textContent=`${CP.d.age} anos · ${CP.d.condition||''}`;
   show('s-app');
   UNS.forEach(u=>u());UNS=[];
-  UNS.push(db.collection('patients').doc(id).onSnapshot(sn=>{if(sn.exists){CP.d=sn.data();if(AT)rTab(AT)}}));
+  UNS.push(db.collection('patients').doc(id).onSnapshot(sn=>{
+    if(sn.exists){
+      CP.d=sn.data();
+      if(AT)rTab(AT);
+      // Reagenda notificações se remédios mudaram
+      if(localStorage.getItem('notif_ok')==='1') schedN();
+    }
+  }));
   gT('home');
+  // Inicia badge de chat e agenda notificações
+  startChatBadge();
+  if(localStorage.getItem('notif_ok')==='1') schedN();
 }
 window.goSel=()=>{UNS.forEach(u=>u());UNS=[];CP=null;el('sos-b').style.display='none';show('s-sel');loadPats()};
 
@@ -909,28 +920,122 @@ window.doEditP=async()=>{
 
 // ══ SOS ══
 window.trigSOS=async()=>{
-  const b=el('sos-b');b.style.display=b.style.display==='none'?'block':'none';
-  if(b.style.display==='block'){await logEnt({details:'🚨 EMERGÊNCIA acionada pelo app.',category:'❤️ Sinais Vitais',severity:'CRITICO'});toast('🚨 SOS! Ligue 192 agora.',5000)}
+  const b=el('sos-b');
+  const showing=b.style.display==='none'||b.style.display==='';
+  b.style.display=showing?'block':'none';
+  if(showing){
+    // Log emergência para todos verem no diário
+    await logEnt({details:'🚨 EMERGÊNCIA acionada pelo app.',category:'❤️ Sinais Vitais',severity:'CRITICO'});
+    // Notificação push local para quem está com o app aberto
+    if(Notification.permission==='granted'){
+      new Notification('🚨 EMERGÊNCIA — '+CP.d.name,{
+        body:'Botão SOS acionado! Verifique imediatamente.',
+        requireInteraction:true,vibrate:[500,200,500,200,500],tag:'sos'
+      });
+    }
+    toast('🚨 SOS ativado! Ligue 192 agora.',5000);
+  }
 };
 
-// ══ NOTIFS ══
+// ══ NOTIFICAÇÕES DE REMÉDIO (alarme real) ══
 window.reqNotif=async()=>{
-  if(!('Notification' in window)){toast('Notificações não suportadas.');return}
+  if(!('Notification' in window)){toast('Notificações não suportadas neste navegador.');return}
   const r=await Notification.requestPermission();
-  if(r==='granted'){toast('✅ Notificações ativadas!');schedN()}else toast('Bloqueado nas configurações do celular.');
+  if(r==='granted'){
+    toast('✅ Notificações ativadas!');
+    localStorage.setItem('notif_ok','1');
+    schedN();
+  } else {
+    toast('⚠️ Bloqueado. Vá em Configurações do celular → Site → Notificações → Permitir.');
+  }
 };
+
+// Cancela timers antigos antes de reagendar
+let _notifTimers=[];
 window.schedN=()=>{
   if(Notification.permission!=='granted'||!CP)return;
+  // Cancela timers anteriores
+  _notifTimers.forEach(t=>clearTimeout(t));
+  _notifTimers=[];
+  
+  const meds=CP.d.medications||[];
   let n=0;
-  (CP.d.medications||[]).forEach(m=>{
-    (m.times||[]).forEach(t=>{
-      const[hh,mm]=t.split(':').map(Number),now=new Date(),tg=new Date();
-      tg.setHours(hh,mm,0,0);if(tg<=now)tg.setDate(tg.getDate()+1);
-      const dl=tg-now;
-      if(dl<86400000){setTimeout(()=>{new Notification(`💊 Remédio de ${CP.d.name}`,{body:`${m.name} ${m.dose} — ${t}`,vibrate:[300,100,300],requireInteraction:true,tag:`med-${m.id}-${t}`})},dl);n++}
+  meds.forEach(med=>{
+    (med.times||[]).forEach(timeStr=>{
+      const[hh,mm]=timeStr.split(':').map(Number);
+      
+      // Agenda para HOJE se ainda não passou, ou para AMANHÃ
+      const now=new Date();
+      const tg=new Date();
+      tg.setHours(hh,mm,0,0);
+      if(tg<=now) tg.setDate(tg.getDate()+1);
+      const delay=tg-now;
+      
+      const tid=setTimeout(()=>{
+        // Só dispara se ainda não foi marcado como tomado hoje
+        const td=today();
+        const taken=(CP.d.medsTaken||{})[td]||{};
+        const key=med.id+'-'+timeStr;
+        if(!taken[key]){
+          new Notification('💊 Hora do remédio — '+CP.d.name,{
+            body:med.name+' '+med.dose+' — '+timeStr,
+            requireInteraction:true,
+            vibrate:[400,100,400,100,400],
+            tag:'med-'+med.id+'-'+timeStr,
+            icon:'https://alefe-tonidandel.github.io/cuidado-idoso/icon-192.png'
+          });
+          toast('💊 '+med.name+' — hora de tomar!');
+        }
+        // Reagenda para o dia seguinte automaticamente
+        schedN();
+      }, delay);
+      
+      _notifTimers.push(tid);
+      n++;
     });
   });
-  if(n>0)toast(`🔔 ${n} alertas agendados!`);
+  
+  if(n>0) toast('🔔 '+n+' alarmes de remédio ativos!');
+};
+
+// ══ CHAT BADGE (mensagem nova) ══
+let _lastChatTs=null;
+function startChatBadge(){
+  if(!CP) return;
+  // Escuta novas mensagens em tempo real mesmo fora da aba chat
+  const q=db.collection('patients').doc(CP.id).collection('chat').orderBy('createdAt','desc').limit(1);
+  const u=q.onSnapshot(sn=>{
+    if(sn.empty) return;
+    const last=sn.docs[0].data();
+    const ts=last.createdAt?.seconds||0;
+    const isMe=last.uid===CU.uid;
+    // Se é mensagem nova de outra pessoa e não estamos na aba chat
+    if(!isMe && AT!=='chat' && _lastChatTs!==null && ts>_lastChatTs){
+      const badge=el('chat-badge');
+      if(badge) badge.style.display='inline-flex';
+      // Notificação push
+      if(Notification.permission==='granted'){
+        new Notification('💬 Nova mensagem — '+CP.d.name,{
+          body:(last.name||'Cuidador')+': '+last.text,
+          tag:'chat-msg',requireInteraction:false
+        });
+      }
+      toast('💬 Nova mensagem de '+(last.name||'cuidador')+'!');
+    }
+    _lastChatTs=ts;
+  });
+  UNS.push(u);
+}
+
+// Limpa badge ao entrar no chat
+const _origGT=window.gT;
+window.gT=tab=>{
+  if(tab==='chat'){
+    const badge=el('chat-badge');
+    if(badge) badge.style.display='none';
+    _lastChatTs=Date.now()/1000; // marca como lido agora
+  }
+  _origGT(tab);
 };
 
 // ══ PWA ══
